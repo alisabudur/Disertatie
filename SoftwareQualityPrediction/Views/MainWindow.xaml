@@ -1,0 +1,30 @@
+﻿<Window x:Class="SoftwareQualityPrediction.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SoftwareQualityPrediction"
+        xmlns:views="clr-namespace:SoftwareQualityPrediction.Views"
+        xmlns:resx="clr-namespace:SoftwareQualityPrediction.Properties"
+        xmlns:viewModels="clr-namespace:SoftwareQualityPrediction.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="550" Width="900">
+
+    <Window.Resources>
+        <viewModels:MainWindowViewModel x:Key="MainWindowViewModel"/>
+    </Window.Resources>
+
+    <Grid DataContext="{StaticResource MainWindowViewModel}">
+        <DockPanel Margin="0,0">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="{x:Static resx:Resources.ActionsCaption}">
+                    <MenuItem Header="{x:Static resx:Resources.TrainingCaption}" Command="{Binding NavigateToTrainingView}"/>
+                    <!--<MenuItem Header="{x:Static resx:Resources.TestingCaption}" Command="{Binding NavigateToTestingView}"/>-->
+                    <Separator />
+                    <MenuItem Header="Exit" />
+                </MenuItem>
+            </Menu>
+            <Frame x:Name="MainFrame" Content="{Binding Page}"/>
+        </DockPanel>
+    </Grid>
+</Window>
