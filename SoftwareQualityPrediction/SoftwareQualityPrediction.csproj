@@ -58,10 +58,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Utils\CommandHandler.cs" />
+    <Compile Include="Utils\IColleague.cs" />
+    <Compile Include="Utils\IMediator.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\TrainingViewModel.cs" />
-    <Compile Include="Views\TrainingPage.xaml.cs">
-      <DependentUpon>TrainingPage.xaml</DependentUpon>
+    <Compile Include="ViewModels\SelectItemsViewModel.cs" />
+    <Compile Include="ViewModels\TrainingDataViewModel.cs" />
+    <Compile Include="Views\SelectItemsView.xaml.cs">
+      <DependentUpon>SelectItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TrainingDataPage.xaml.cs">
+      <DependentUpon>TrainingDataPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TrainingParametersPage.xaml.cs">
+      <DependentUpon>TrainingParametersPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UploadFileView.xaml.cs">
       <DependentUpon>UploadFileView.xaml</DependentUpon>
@@ -80,7 +89,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\TrainingPage.xaml">
+    <Page Include="Views\SelectItemsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TrainingDataPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TrainingParametersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

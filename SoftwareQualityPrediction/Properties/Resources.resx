@@ -120,8 +120,23 @@
   <data name="ActionsCaption" xml:space="preserve">
     <value>Actions</value>
   </data>
+  <data name="AddCaption" xml:space="preserve">
+    <value>Add &gt;&gt;</value>
+  </data>
   <data name="BrowseCaption" xml:space="preserve">
     <value>Browse</value>
+  </data>
+  <data name="NextCaption" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="RemoveCaption" xml:space="preserve">
+    <value>&lt;&lt; Remove</value>
+  </data>
+  <data name="SelectInputVariablesCaption" xml:space="preserve">
+    <value>Select Input Variables</value>
+  </data>
+  <data name="SelectOutputVariablesCaption" xml:space="preserve">
+    <value>Select Output Variables</value>
   </data>
   <data name="SheetCaption" xml:space="preserve">
     <value>Sheet</value>
@@ -129,8 +144,11 @@
   <data name="TestingCaption" xml:space="preserve">
     <value>Testing</value>
   </data>
-  <data name="TrainingCaption" xml:space="preserve">
-    <value>Training</value>
+  <data name="TrainingDataCaption" xml:space="preserve">
+    <value>Training Data</value>
+  </data>
+  <data name="TrainingParametersCaption" xml:space="preserve">
+    <value>Training Parameters</value>
   </data>
   <data name="UploadFileCaption" xml:space="preserve">
     <value>Upload File</value>

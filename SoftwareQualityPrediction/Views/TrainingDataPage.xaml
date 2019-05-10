@@ -1,0 +1,66 @@
+﻿<Page x:Class="SoftwareQualityPrediction.Views.TrainingDataPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SoftwareQualityPrediction.Views"
+      xmlns:viewModels="clr-namespace:SoftwareQualityPrediction.ViewModels"
+      xmlns:resx="clr-namespace:SoftwareQualityPrediction.Properties"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1200"
+      Title="TrainingPage">
+
+    <Page.Resources>
+        <viewModels:TrainingDataViewModel x:Key="TrainingViewModel"/>
+    </Page.Resources>
+
+    <Grid DataContext="{StaticResource TrainingViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <local:UploadFileView
+            DataContext="{Binding UploadFileViewModel}"
+            Margin="10"
+            Grid.Row="0"
+            Grid.Column="0"/>
+
+        <Grid Grid.Row="1"
+              Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="6*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="{x:Static resx:Resources.SelectInputVariablesCaption}"
+                      Grid.Column="0"
+                      Margin="20">
+                <local:SelectItemsView
+                    DataContext="{Binding SelectInputVariablesViewModel}"
+                    Margin="10"/>
+            </GroupBox>
+
+            <GroupBox Header="{x:Static resx:Resources.SelectOutputVariablesCaption}"
+                      Grid.Column="1"
+                      Margin="20">
+                <local:SelectItemsView
+                    DataContext="{Binding SelectOutputVariablesViewModel}"
+                    Margin="10"/>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="2"
+              Grid.Column="0">
+            
+            <Button Content="{x:Static resx:Resources.NextCaption}"
+                    Command="{Binding NavigateToTrainingParametersPageCommand}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Margin="20"
+                    Height="25"
+                    Width="120"/>
+        </Grid>
+    </Grid>
+</Page>

@@ -41,12 +41,15 @@
                 <TextBox IsEnabled="False"
                          Text="{Binding FilePath, Mode=OneWay}"
                          Margin="5"
+                         Height="25"
                          Grid.Column="0"
                          Grid.Row="1"/>
 
                 <Button Content="{x:Static resx:Resources.BrowseCaption}" 
                         Command="{Binding UploadFileCommand}"
                         Margin="5"
+                        Height="25"
+                        Width="120"
                         Grid.Column="1"
                         Grid.Row="1"/>
 
@@ -70,6 +73,7 @@
                     ItemsSource="{Binding Sheets}"
                     SelectedItem="{Binding SelectedSheet}"
                     Margin="5"
+                    Height="25"
                     Grid.Column="0"
                     Grid.Row="1"/>
             </Grid>

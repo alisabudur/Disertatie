@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace SoftwareQualityPrediction.Views
 {
     /// <summary>
-    /// Interaction logic for TrainingPage.xaml
+    /// Interaction logic for SelectItemsView.xaml
     /// </summary>
-    public partial class TrainingPage : Page
+    public partial class SelectItemsView : UserControl
     {
-        public TrainingPage()
+        public SelectItemsView()
         {
             InitializeComponent();
         }

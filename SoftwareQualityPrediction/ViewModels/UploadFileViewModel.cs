@@ -8,8 +8,10 @@ using SoftwareQualityPrediction.Utils;
 
 namespace SoftwareQualityPrediction.ViewModels
 {
-    public class UploadFileViewModel: BaseViewModel
+    public class UploadFileViewModel: BaseViewModel, IColleague
     {
+        public IMediator Mediator { get; set; }
+
         public UploadFileViewModel()
         {
             _canExecute = true;
@@ -77,6 +79,26 @@ namespace SoftwareQualityPrediction.ViewModels
             }
         }
 
+        public List<string> Columns
+        {
+            get { return _columns; }
+            set
+            {
+                _columns = value;
+                OnPropertyChanged(nameof(Columns));
+            }
+        }
+
+        public void Send(object message)
+        {
+            Mediator.Send(message, this);
+        }
+
+        public void Receive(object message)
+        {
+            throw new System.NotImplementedException();
+        }
+
         private void UploadFile()
         {
             var op = new OpenFileDialog();
@@ -119,10 +141,19 @@ namespace SoftwareQualityPrediction.ViewModels
         private void PopulateDataGrid()
         {
             var connectionString = $"Provider=Microsoft.Jet.OLEDB.4.0; data source={FilePath}; Extended Properties=Excel 8.0;";
-            var adapter = new OleDbDataAdapter($"SELECT TOP 5 * FROM [{SelectedSheet}]", connectionString);
+            var adapter = new OleDbDataAdapter($"SELECT TOP 7 * FROM [{SelectedSheet}]", connectionString);
             var dataTable = new DataTable();
             adapter.Fill(dataTable);
             DataRows = dataTable.DefaultView;
+
+            var columns = new List<string>();
+            foreach (DataColumn column in dataTable.Columns)
+            {
+                columns.Add(column.ColumnName);
+            }
+
+            Columns = columns;
+            Send(Columns);
         }
 
         private bool _canExecute;
@@ -131,6 +162,8 @@ namespace SoftwareQualityPrediction.ViewModels
         private string _selectedSheet;
         private List<string> _sheets;
         private DataView _dataRows;
+        private List<string> _columns;
         private ICommand _uploadFile;
+        
     }
 }

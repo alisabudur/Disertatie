@@ -70,11 +70,56 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add &gt;&gt;.
+        /// </summary>
+        public static string AddCaption {
+            get {
+                return ResourceManager.GetString("AddCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Browse.
         /// </summary>
         public static string BrowseCaption {
             get {
                 return ResourceManager.GetString("BrowseCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string NextCaption {
+            get {
+                return ResourceManager.GetString("NextCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;&lt; Remove.
+        /// </summary>
+        public static string RemoveCaption {
+            get {
+                return ResourceManager.GetString("RemoveCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Input Variables.
+        /// </summary>
+        public static string SelectInputVariablesCaption {
+            get {
+                return ResourceManager.GetString("SelectInputVariablesCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Output Variables.
+        /// </summary>
+        public static string SelectOutputVariablesCaption {
+            get {
+                return ResourceManager.GetString("SelectOutputVariablesCaption", resourceCulture);
             }
         }
         
@@ -97,11 +142,20 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Training.
+        ///   Looks up a localized string similar to Training Data.
         /// </summary>
-        public static string TrainingCaption {
+        public static string TrainingDataCaption {
             get {
-                return ResourceManager.GetString("TrainingCaption", resourceCulture);
+                return ResourceManager.GetString("TrainingDataCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Training Parameters.
+        /// </summary>
+        public static string TrainingParametersCaption {
+            get {
+                return ResourceManager.GetString("TrainingParametersCaption", resourceCulture);
             }
         }
         

@@ -8,23 +8,24 @@ namespace SoftwareQualityPrediction.ViewModels
 {
     public class MainWindowViewModel: BaseViewModel
     {
-        private bool _canExecute;
-        private Page _currentPage;
-        private IDictionary<string, Page> _pages;
-        private ICommand _navigateToTrainingView;
-
-
         public MainWindowViewModel()
         {
             _canExecute = true;
 
             _pages = new Dictionary<string, Page>()
             {
-                { Properties.Resources.TrainingCaption, new TrainingPage()},
+                { Properties.Resources.TrainingDataCaption, new TrainingDataPage()},
+                { Properties.Resources.TrainingParametersCaption, new TrainingParametersPage()},
             };
 
-            Page = _pages[Properties.Resources.TrainingCaption];
+            Page = _pages[Properties.Resources.TrainingDataCaption];
         }
+
+        public ICommand NavigateToTrainingView => _navigateToTrainingDataPage ?? (_navigateToTrainingDataPage = new CommandHandler(
+                                                      () => { Page = _pages[Properties.Resources.TrainingDataCaption]; }, _canExecute));
+
+        public ICommand NavigateToTrainingParametersPageCommand => _navigateToTrainingparametersPage ?? (_navigateToTrainingparametersPage = new CommandHandler(
+                                                                       () => { Page = _pages[Properties.Resources.TrainingDataCaption]; }, _canExecute));
 
         public Page Page
 
@@ -33,8 +34,10 @@ namespace SoftwareQualityPrediction.ViewModels
             set { _currentPage = value; OnPropertyChanged("Page"); }
         }
 
-        public ICommand NavigateToTrainingView => _navigateToTrainingView ?? (_navigateToTrainingView = new CommandHandler(
-                                                 () => { Page = _pages[Properties.Resources.TrainingCaption]; }, _canExecute));
-
+        private bool _canExecute;
+        private Page _currentPage;
+        private IDictionary<string, Page> _pages;
+        private ICommand _navigateToTrainingDataPage;
+        private ICommand _navigateToTrainingparametersPage;
     }
 }
