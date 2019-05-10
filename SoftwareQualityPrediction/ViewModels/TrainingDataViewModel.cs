@@ -1,4 +1,6 @@
-﻿using SoftwareQualityPrediction.Utils;
+﻿using System.Linq;
+using SoftwareQualityPrediction.Dtos;
+using SoftwareQualityPrediction.Utils;
 
 namespace SoftwareQualityPrediction.ViewModels
 {
@@ -51,6 +53,18 @@ namespace SoftwareQualityPrediction.ViewModels
                 _selectInputVariablesViewModel.Receive(message);
                 _selectOutputVariablesViewModel.Receive(message);
             }
+        }
+
+        public TrainingDataDto PrepareDto()
+        {
+            return new TrainingDataDto
+            {
+                FilePath = UploadFileViewModel.FilePath,
+                Sheet = UploadFileViewModel.SelectedSheet,
+                IdColumn = UploadFileViewModel.SelectedIdColumn,
+                InputVariables = SelectInputVariablesViewModel.SelectedItems.ToList(),
+                OutputVariables = SelectOutputVariablesViewModel.SelectedItems.ToList()
+            };
         }
 
         private UploadFileViewModel _uploadFileViewModel;

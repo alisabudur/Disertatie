@@ -8,24 +8,28 @@
       xmlns:resx="clr-namespace:SoftwareQualityPrediction.Properties"
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1200"
-      Title="TrainingPage">
+      Title="{x:Static resx:Resources.TrainingDataCaption}">
 
-    <Page.Resources>
-        <viewModels:TrainingDataViewModel x:Key="TrainingViewModel"/>
-    </Page.Resources>
+    <Page.DataContext>
+        <viewModels:TrainingDataViewModel/>
+    </Page.DataContext>
 
-    <Grid DataContext="{StaticResource TrainingViewModel}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
             <RowDefinition Height="5*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <local:UploadFileView
-            DataContext="{Binding UploadFileViewModel}"
-            Margin="10"
-            Grid.Row="0"
-            Grid.Column="0"/>
+
+        <GroupBox Header="{x:Static resx:Resources.SelectTrainingDataFileCaption}"
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  Margin="20">
+            <local:UploadFileView
+                DataContext="{Binding UploadFileViewModel}"
+                Margin="10"/>
+        </GroupBox>
 
         <Grid Grid.Row="1"
               Grid.Column="0">
@@ -55,7 +59,7 @@
               Grid.Column="0">
             
             <Button Content="{x:Static resx:Resources.NextCaption}"
-                    Command="{Binding NavigateToTrainingParametersPageCommand}"
+                    Click="OnNextButtonClick"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Margin="20"

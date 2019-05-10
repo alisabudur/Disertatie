@@ -10,14 +10,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1200">
 
-    <Window.Resources>
-        <viewModels:MainWindowViewModel x:Key="MainWindowViewModel"/>
-    </Window.Resources>
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel/>
+    </Window.DataContext>
 
-    <Grid DataContext="{StaticResource MainWindowViewModel}">
+    <Grid>
         <DockPanel Margin="0,0">
             <Menu DockPanel.Dock="Top">
-                <MenuItem Header="{x:Static resx:Resources.ActionsCaption}">
+                <MenuItem Header="{x:Static resx:Resources.MenuCaption}">
                     <MenuItem Header="{x:Static resx:Resources.TrainingDataCaption}" Command="{Binding NavigateToTrainingDataPageCommand}"/>
                     <Separator />
                     <MenuItem Header="Exit" />

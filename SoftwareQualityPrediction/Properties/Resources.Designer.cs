@@ -61,15 +61,6 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Actions.
-        /// </summary>
-        public static string ActionsCaption {
-            get {
-                return ResourceManager.GetString("ActionsCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Add &gt;&gt;.
         /// </summary>
         public static string AddCaption {
@@ -88,11 +79,92 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cross-Validation K Parameter.
+        /// </summary>
+        public static string CrossValidationParameterCaption {
+            get {
+                return ResourceManager.GetString("CrossValidationParameterCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID Column.
+        /// </summary>
+        public static string IdColumnCaption {
+            get {
+                return ResourceManager.GetString("IdColumnCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Learning Rate.
+        /// </summary>
+        public static string LearningRateCaption {
+            get {
+                return ResourceManager.GetString("LearningRateCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Learning Rate must be a positive number.
+        /// </summary>
+        public static string LearningRateValidationMessage {
+            get {
+                return ResourceManager.GetString("LearningRateValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Menu.
+        /// </summary>
+        public static string MenuCaption {
+            get {
+                return ResourceManager.GetString("MenuCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum Error must be a positive number.
+        /// </summary>
+        public static string MinErrorValidationMessage {
+            get {
+                return ResourceManager.GetString("MinErrorValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum Error.
+        /// </summary>
+        public static string MinimumErrorCaption {
+            get {
+                return ResourceManager.GetString("MinimumErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string NextCaption {
             get {
                 return ResourceManager.GetString("NextCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number Of Epochs must be a positive number.
+        /// </summary>
+        public static string NoEpochsValidationMessage {
+            get {
+                return ResourceManager.GetString("NoEpochsValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number Of Epochs.
+        /// </summary>
+        public static string NumberOfEpochsCaption {
+            get {
+                return ResourceManager.GetString("NumberOfEpochsCaption", resourceCulture);
             }
         }
         
@@ -124,11 +196,47 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Training Data File.
+        /// </summary>
+        public static string SelectTrainingDataFileCaption {
+            get {
+                return ResourceManager.GetString("SelectTrainingDataFileCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Training Parameters.
+        /// </summary>
+        public static string SelectTrainingParametersCaption {
+            get {
+                return ResourceManager.GetString("SelectTrainingParametersCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Validation Parameters.
+        /// </summary>
+        public static string SelectValidationParametersCaption {
+            get {
+                return ResourceManager.GetString("SelectValidationParametersCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sheet.
         /// </summary>
         public static string SheetCaption {
             get {
                 return ResourceManager.GetString("SheetCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Training.
+        /// </summary>
+        public static string StartTrainingCaption {
+            get {
+                return ResourceManager.GetString("StartTrainingCaption", resourceCulture);
             }
         }
         
@@ -156,6 +264,15 @@ namespace SoftwareQualityPrediction.Properties {
         public static string TrainingParametersCaption {
             get {
                 return ResourceManager.GetString("TrainingParametersCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Training Result.
+        /// </summary>
+        public static string TrainingResultCaption {
+            get {
+                return ResourceManager.GetString("TrainingResultCaption", resourceCulture);
             }
         }
         

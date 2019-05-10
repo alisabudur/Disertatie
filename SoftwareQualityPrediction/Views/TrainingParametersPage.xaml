@@ -4,11 +4,119 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SoftwareQualityPrediction.Views"
+      xmlns:viewModels="clr-namespace:SoftwareQualityPrediction.ViewModels"
+      xmlns:resx="clr-namespace:SoftwareQualityPrediction.Properties"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="TrainingParametersPage">
+      d:DesignHeight="800" d:DesignWidth="1200"
+      Title="{x:Static resx:Resources.TrainingParametersCaption}">
+    
+    <Page.DataContext>
+        <viewModels:TrainingParametersViewModel/>
+    </Page.DataContext>
 
-    <Grid>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="{x:Static resx:Resources.SelectTrainingParametersCaption}"
+                  Grid.Row="0"
+                  Margin="10">
+            <Grid Margin="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="{x:Static resx:Resources.MinimumErrorCaption}" 
+                       Margin="5"
+                       Grid.Column="0"
+                       Grid.Row="0" />
+
+                <TextBox Text="{Binding MinError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                         Margin="5"
+                         Height="25"
+                         Grid.Column="0"
+                         Grid.Row="1"/>
+
+                <Label Content="{x:Static resx:Resources.LearningRateCaption}" 
+                       Margin="5"
+                       Grid.Column="1"
+                       Grid.Row="0" />
+
+                <TextBox Text="{Binding LearningRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                         Margin="5"
+                         Height="25"
+                         Grid.Column="1"
+                         Grid.Row="1"/>
+
+                <Label Content="{x:Static resx:Resources.NumberOfEpochsCaption}" 
+                       Margin="5"
+                       Grid.Column="2"
+                       Grid.Row="0" />
+
+                <TextBox Text="{Binding NoEpochs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                         Margin="5"
+                         Height="25"
+                         Grid.Column="2"
+                         Grid.Row="1"/>
+            </Grid>
+        </GroupBox>
         
+        <GroupBox Header="{x:Static resx:Resources.SelectValidationParametersCaption}"
+                  Grid.Row="1"
+                  Margin="10">
+            <Grid Margin="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="{x:Static resx:Resources.CrossValidationParameterCaption}" 
+                       Margin="5"
+                       Grid.Column="0"
+                       Grid.Row="0" />
+
+                <TextBox Text="{Binding CrossValidationK, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                         Margin="5"
+                         Height="25"
+                         Grid.Column="0"
+                         Grid.Row="1"/>
+            </Grid>
+        </GroupBox>
+
+        <Button Content="{x:Static resx:Resources.StartTrainingCaption}" 
+                Command="{Binding StartTrainingCommand}"
+                Margin="5"
+                Height="25"
+                Width="120"
+                Grid.Row="2"/>
+
+        <GroupBox Header="{x:Static resx:Resources.TrainingResultCaption}"
+                  Grid.Row="3"
+                  Margin="10">
+
+            <ProgressBar Value="{Binding ProgressBarValue}"
+                         Minimum="0"
+                         Maximum="100"
+                         Height="25"
+                         Margin="50"/>
+        </GroupBox>
     </Grid>
 </Page>

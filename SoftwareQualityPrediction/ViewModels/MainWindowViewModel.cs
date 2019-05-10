@@ -15,17 +15,14 @@ namespace SoftwareQualityPrediction.ViewModels
             _pages = new Dictionary<string, Page>()
             {
                 { Properties.Resources.TrainingDataCaption, new TrainingDataPage()},
-                { Properties.Resources.TrainingParametersCaption, new TrainingParametersPage()},
             };
 
             Page = _pages[Properties.Resources.TrainingDataCaption];
         }
 
-        public ICommand NavigateToTrainingView => _navigateToTrainingDataPage ?? (_navigateToTrainingDataPage = new CommandHandler(
+        public ICommand NavigateToTrainingDataPageCommand => _navigateToTrainingDataPage ?? (_navigateToTrainingDataPage = new CommandHandler(
                                                       () => { Page = _pages[Properties.Resources.TrainingDataCaption]; }, _canExecute));
 
-        public ICommand NavigateToTrainingParametersPageCommand => _navigateToTrainingparametersPage ?? (_navigateToTrainingparametersPage = new CommandHandler(
-                                                                       () => { Page = _pages[Properties.Resources.TrainingDataCaption]; }, _canExecute));
 
         public Page Page
 
@@ -38,6 +35,5 @@ namespace SoftwareQualityPrediction.ViewModels
         private Page _currentPage;
         private IDictionary<string, Page> _pages;
         private ICommand _navigateToTrainingDataPage;
-        private ICommand _navigateToTrainingparametersPage;
     }
 }
