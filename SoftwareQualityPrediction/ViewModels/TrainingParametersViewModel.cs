@@ -18,7 +18,6 @@ namespace SoftwareQualityPrediction.ViewModels
     {
         public TrainingParametersViewModel()
         {
-            _canExecute = true;
             _progressBarValue = 0;
             _minError = "0";
             _learningRate = "0";
@@ -31,9 +30,12 @@ namespace SoftwareQualityPrediction.ViewModels
             _trainingCompletedMessageVisibility = Visibility.Hidden;
         }
 
-        public ICommand StartTrainingCommand => _startTraining ?? (_startTraining = new CommandHandler(StartTraining, _canExecute));
+        public ICommand StartTrainingCommand 
+            => _startTraining ?? (_startTraining = new CommandHandler(StartTraining, () => StartTrainingCanExecute));
+
         public ICommand SelectNeuralNetworkSavePathCommand
-            => _selectNeuralNetworkSavePath ?? (_selectNeuralNetworkSavePath = new CommandHandler(SelectNeuralNetworkSavePath, _canExecute));
+            => _selectNeuralNetworkSavePath ?? (_selectNeuralNetworkSavePath = new CommandHandler(SelectNeuralNetworkSavePath,
+                   () => true));
 
         public string MinError
         {
@@ -123,6 +125,11 @@ namespace SoftwareQualityPrediction.ViewModels
                 _trainingCompletedMessageVisibility = value;
                 OnPropertyChanged(nameof(TrainingCompletedMessageVisibility));
             }
+        }
+
+        public bool StartTrainingCanExecute
+        {
+            get { return string.IsNullOrEmpty(Error); }
         }
 
         public void Populate(TrainingDataDto trainingDataDto)
@@ -242,6 +249,7 @@ namespace SoftwareQualityPrediction.ViewModels
                     _errorList.Remove(columnName);
 
                 OnPropertyChanged(nameof(Error));
+                OnPropertyChanged(nameof(StartTrainingCanExecute));
 
                 return (error);
             }
@@ -300,7 +308,6 @@ namespace SoftwareQualityPrediction.ViewModels
                     : Visibility.Hidden;
         }
 
-        private bool _canExecute;
         private string _minError;
         private string _learningRate;
         private string _noEpochs;

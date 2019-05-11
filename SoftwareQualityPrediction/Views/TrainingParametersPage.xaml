@@ -203,6 +203,7 @@
 
         <Button Content="{x:Static resx:Resources.StartTrainingCaption}" 
                 Command="{Binding StartTrainingCommand}"
+                IsEnabled="{Binding StartTrainingCanExecute}"
                 Margin="5"
                 Height="25"
                 Width="120"

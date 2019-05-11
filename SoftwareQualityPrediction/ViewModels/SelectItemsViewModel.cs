@@ -11,16 +11,15 @@ namespace SoftwareQualityPrediction.ViewModels
 
         public SelectItemsViewModel()
         {
-            _canExecute = true;
             _unselectedItems = new ObservableCollection<string>();
             _selectedItems = new ObservableCollection<string>();
         }
 
         public ICommand AddCommand =>
-            _addCommand ?? (_addCommand = new CommandHandler(AddItem, _canExecute));
+            _addCommand ?? (_addCommand = new CommandHandler(AddItem, () => true));
 
         public ICommand RemoveCommand =>
-            _removeCommand ?? (_removeCommand = new CommandHandler(RemoveItem, _canExecute));
+            _removeCommand ?? (_removeCommand = new CommandHandler(RemoveItem, () => true));
 
         public ObservableCollection<string> UnselectedItems
         {
@@ -102,6 +101,5 @@ namespace SoftwareQualityPrediction.ViewModels
         private string _itemToRemove;
         private ICommand _addCommand;
         private ICommand _removeCommand;
-        private bool _canExecute;
     }
 }

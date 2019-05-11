@@ -15,13 +15,12 @@ namespace SoftwareQualityPrediction.ViewModels
 
         public UploadFileViewModel()
         {
-            _canExecute = true;
             _isSheetEnabled = false;
             _sheets = new List<string>();
         }
 
         public ICommand UploadFileCommand =>
-            _uploadFile ?? (_uploadFile = new CommandHandler(UploadFile, _canExecute));
+            _uploadFile ?? (_uploadFile = new CommandHandler(UploadFile, () => true));
 
         
         public string FilePath
@@ -171,7 +170,6 @@ namespace SoftwareQualityPrediction.ViewModels
             }
         }
 
-        private bool _canExecute;
         private bool _isSheetEnabled;
         private string _filePath;
         private string _selectedSheet;

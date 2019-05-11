@@ -5,26 +5,38 @@ namespace SoftwareQualityPrediction.Utils
 {
     public class CommandHandler : ICommand
     {
-        private Action _action;
-        private bool _canExecute;
-        public CommandHandler(Action action, bool canExecute)
+        public event EventHandler CanExecuteChanged;
+        
+
+        public CommandHandler(Action action, Func<bool> canExecute)
         {
             _action = action;
             _canExecute = canExecute;
         }
 
-        public bool CanExecute(object parameter)
+        public void RaiseCanExecuteChanged()
         {
-            return _canExecute;
+            if (CanExecuteChanged != null)
+                CanExecuteChanged(this, new EventArgs());
         }
 
-#pragma warning disable CS0067 // The event 'CommandHandler.CanExecuteChanged' is never used
-        public event EventHandler CanExecuteChanged;
-#pragma warning restore CS0067 // The event 'CommandHandler.CanExecuteChanged' is never used
+        #region ICommand Members
+
+        public bool CanExecute(object parameter)
+        {
+            if (_canExecute != null)
+                return _canExecute();
+            return true;
+        }
 
         public void Execute(object parameter)
         {
             _action();
         }
+
+        #endregion
+
+        private Action _action;
+        private Func<bool> _canExecute;
     }
 }

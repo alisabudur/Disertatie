@@ -10,8 +10,6 @@ namespace SoftwareQualityPrediction.ViewModels
     {
         public MainWindowViewModel()
         {
-            _canExecute = true;
-
             _pages = new Dictionary<string, Page>()
             {
                 { Properties.Resources.TrainingDataCaption, new TrainingDataPage()},
@@ -21,7 +19,8 @@ namespace SoftwareQualityPrediction.ViewModels
         }
 
         public ICommand NavigateToTrainingDataPageCommand => _navigateToTrainingDataPage ?? (_navigateToTrainingDataPage = new CommandHandler(
-                                                      () => { Page = _pages[Properties.Resources.TrainingDataCaption]; }, _canExecute));
+                                                      () => { Page = _pages[Properties.Resources.TrainingDataCaption]; },
+                                                      () => true));
 
 
         public Page Page
@@ -31,7 +30,6 @@ namespace SoftwareQualityPrediction.ViewModels
             set { _currentPage = value; OnPropertyChanged("Page"); }
         }
 
-        private bool _canExecute;
         private Page _currentPage;
         private IDictionary<string, Page> _pages;
         private ICommand _navigateToTrainingDataPage;
