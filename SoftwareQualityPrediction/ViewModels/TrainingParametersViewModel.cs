@@ -30,7 +30,7 @@ namespace SoftwareQualityPrediction.ViewModels
             _trainingCompletedMessageVisibility = Visibility.Hidden;
         }
 
-        public ICommand StartTrainingCommand 
+        public ICommand StartTrainingCommand
             => _startTraining ?? (_startTraining = new CommandHandler(StartTraining, () => StartTrainingCanExecute));
 
         public ICommand SelectNeuralNetworkSavePathCommand
@@ -137,7 +137,7 @@ namespace SoftwareQualityPrediction.ViewModels
             _trainingDataDto = trainingDataDto;
         }
 
-        #region IDataErrorInfo
+        #region DataErrorInfo Implementation
 
         public string Error
         {
@@ -159,78 +159,88 @@ namespace SoftwareQualityPrediction.ViewModels
                 var intRegex = new Regex("^[1-9][0-9]*$");
                 var hiddenLayersRegex = new Regex("^(\\d+)(;\\d+)*$");
 
-                if (columnName == nameof(LearningRate))
+                switch (columnName)
                 {
-                    if (string.IsNullOrEmpty(_learningRate))
-                    {
-                        error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
-                            Properties.Resources.LearningRateCaption);
-                    }
-                    if (!doubleRegex.IsMatch(_learningRate))
-                    {
-                        error = Properties.Resources.LearningRateValidationMessage;
-                    }
-                }
-                if (columnName == nameof(NoEpochs))
-                {
-                    if (string.IsNullOrEmpty(_noEpochs))
-                    {
-                        error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
-                            Properties.Resources.NumberOfEpochsCaption);
-                    }
+                    case nameof(LearningRate):
+                        {
+                            if (string.IsNullOrEmpty(_learningRate))
+                            {
+                                error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
+                                    Properties.Resources.LearningRateCaption);
+                            }
+                            if (!doubleRegex.IsMatch(_learningRate))
+                            {
+                                error = Properties.Resources.LearningRateValidationMessage;
+                            }
 
-                    if (!intRegex.IsMatch(_noEpochs))
-                    {
-                        error = Properties.Resources.NoEpochsValidationMessage;
-                    }
-                }
-                if (columnName == nameof(MinError))
-                {
-                    if (string.IsNullOrEmpty(_minError))
-                    {
-                        error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
-                            Properties.Resources.MinimumErrorCaption);
-                    }
+                            break;
+                        }
+                    case nameof(NoEpochs):
+                        {
+                            if (string.IsNullOrEmpty(_noEpochs))
+                            {
+                                error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
+                                    Properties.Resources.NumberOfEpochsCaption);
+                            }
 
-                    if (!doubleRegex.IsMatch(_minError))
-                    {
-                        error = Properties.Resources.MinErrorValidationMessage;
-                    }
-                }
-                if (columnName == nameof(NeuralNetworkName))
-                {
-                    if (string.IsNullOrEmpty(_neuralNetworkName))
-                    {
-                        error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
-                            Properties.Resources.NeuralNetworkNameCaption);
-                    }
-                }
-                if (columnName == nameof(NeuralNetworkSavePath))
-                {
-                    if (!Directory.Exists(_neuralNetworkSavePath))
-                    {
-                        error = Properties.Resources.LocationPathNoExistValidationMessage;
-                    }
+                            if (!intRegex.IsMatch(_noEpochs))
+                            {
+                                error = Properties.Resources.NoEpochsValidationMessage;
+                            }
+                            break;
+                        }
+                    case nameof(MinError):
+                        {
+                            if (string.IsNullOrEmpty(_minError))
+                            {
+                                error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
+                                    Properties.Resources.MinimumErrorCaption);
+                            }
 
-                    if (string.IsNullOrEmpty(_neuralNetworkSavePath))
-                    {
-                        error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
-                            Properties.Resources.LocationToSaveCaption);
-                    }
-                }
+                            if (!doubleRegex.IsMatch(_minError))
+                            {
+                                error = Properties.Resources.MinErrorValidationMessage;
+                            }
+                            break;
+                        }
+                    case nameof(NeuralNetworkName):
+                        {
+                            if (string.IsNullOrEmpty(_neuralNetworkName))
+                            {
+                                error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
+                                    Properties.Resources.NeuralNetworkNameCaption);
+                            }
+                            break;
+                        }
+                    case nameof(NeuralNetworkSavePath):
+                        {
+                            if (!Directory.Exists(_neuralNetworkSavePath))
+                            {
+                                error = Properties.Resources.PathNoExistValidationMessage;
+                            }
 
-                if (columnName == nameof(HiddenLayers))
-                {
-                    if (string.IsNullOrEmpty(_hiddenLayers))
-                    {
-                        error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
-                            Properties.Resources.HiddenLayersCaption);
-                    }
+                            if (string.IsNullOrEmpty(_neuralNetworkSavePath))
+                            {
+                                error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
+                                    Properties.Resources.LocationToSaveCaption);
+                            }
+                            break;
+                        }
 
-                    if (!hiddenLayersRegex.IsMatch(_hiddenLayers))
-                    {
-                        error = Properties.Resources.InvalidHiddenLayersFormatValidationMessage;
-                    }
+                    case nameof(HiddenLayers):
+                        {
+                            if (string.IsNullOrEmpty(_hiddenLayers))
+                            {
+                                error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
+                                    Properties.Resources.HiddenLayersCaption);
+                            }
+
+                            if (!hiddenLayersRegex.IsMatch(_hiddenLayers))
+                            {
+                                error = Properties.Resources.InvalidHiddenLayersFormatValidationMessage;
+                            }
+                            break;
+                        }
                 }
 
                 if (error != null)
@@ -251,9 +261,10 @@ namespace SoftwareQualityPrediction.ViewModels
                 OnPropertyChanged(nameof(Error));
                 OnPropertyChanged(nameof(StartTrainingCanExecute));
 
-                return (error);
+                return error;
             }
         }
+
         #endregion
 
         private void StartTraining()
@@ -302,9 +313,9 @@ namespace SoftwareQualityPrediction.ViewModels
             ProgressBarValue = e.ProgressPercentage;
 
             // If completed
-            TrainingCompletedMessageVisibility = 
-                e.ProgressPercentage == 100 
-                    ? Visibility.Visible 
+            TrainingCompletedMessageVisibility =
+                e.ProgressPercentage == 100
+                    ? Visibility.Visible
                     : Visibility.Hidden;
         }
 

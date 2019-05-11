@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using SoftwareQualityPrediction.Utils;
 
@@ -48,6 +49,7 @@ namespace SoftwareQualityPrediction.ViewModels
             {
                 _itemToAdd = value;
                 OnPropertyChanged(nameof(ItemToAdd));
+                Send(null);
             }
         }
 
@@ -58,12 +60,15 @@ namespace SoftwareQualityPrediction.ViewModels
             {
                 _itemToRemove = value;
                 OnPropertyChanged(nameof(ItemToRemove));
+                Send(null);
             }
         }
 
+        #region Mediator Implementation
+
         public void Send(object message)
         {
-            throw new System.NotImplementedException();
+            Mediator.Send(message, this);
         }
 
         public void Receive(object message)
@@ -72,6 +77,8 @@ namespace SoftwareQualityPrediction.ViewModels
             UnselectedItems = new ObservableCollection<string>(columns);
             SelectedItems.Clear();
         }
+
+        #endregion
 
         private void AddItem()
         {
@@ -88,8 +95,8 @@ namespace SoftwareQualityPrediction.ViewModels
         {
             if (ItemToRemove != null)
             {
-                SelectedItems.Remove(ItemToRemove);
                 UnselectedItems.Add(ItemToRemove);
+                SelectedItems.Remove(ItemToRemove);
                 OnPropertyChanged(nameof(SelectedItems));
                 OnPropertyChanged(nameof(UnselectedItems));
             }

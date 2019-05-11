@@ -154,8 +154,8 @@
   <data name="LearningRateValidationMessage" xml:space="preserve">
     <value>Learning Rate must be a positive real number</value>
   </data>
-  <data name="LocationPathNoExistValidationMessage" xml:space="preserve">
-    <value>Location path does not exist</value>
+  <data name="PathNoExistValidationMessage" xml:space="preserve">
+    <value>Path does not exist</value>
   </data>
   <data name="LocationToSaveCaption" xml:space="preserve">
     <value>Location </value>
@@ -189,6 +189,10 @@
   </data>
   <data name="SelectAnnParametersCaption" xml:space="preserve">
     <value>Select Neural Network Parameters</value>
+  </data>
+  <data name="NoItemSelectedValidationMessage" xml:space="preserve">
+    <value>No item selected for {0}</value>
+    <comment>{0} - input/output variables</comment>
   </data>
   <data name="SelectHiddenLayersCaption" xml:space="preserve">
     <value>Select Hidden Layers</value>
@@ -234,5 +238,14 @@
   </data>
   <data name="UploadFileCaption" xml:space="preserve">
     <value>Upload File</value>
+  </data>
+  <data name="InputVariablesCaption" xml:space="preserve">
+    <value>Input Variables</value>
+  </data>
+  <data name="OutputVariablesCaption" xml:space="preserve">
+    <value>Output Variables</value>
+  </data>
+  <data name="FileFieldCaption" xml:space="preserve">
+    <value>File</value>
   </data>
 </root>

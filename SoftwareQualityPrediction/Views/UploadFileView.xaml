@@ -39,8 +39,8 @@
                        Grid.Column="0"
                        Grid.Row="0" />
 
-                <TextBox IsEnabled="False"
-                         Text="{Binding FilePath, Mode=OneWay}"
+                <TextBox Text="{Binding FilePath, Mode=TwoWay, ValidatesOnDataErrors=True}"
+                         IsEnabled="False"
                          Margin="5"
                          Height="25"
                          Grid.Column="0"

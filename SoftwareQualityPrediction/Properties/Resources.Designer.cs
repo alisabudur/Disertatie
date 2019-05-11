@@ -115,6 +115,15 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string FileFieldCaption {
+            get {
+                return ResourceManager.GetString("FileFieldCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hidden Layers.
         /// </summary>
         public static string HiddenLayersCaption {
@@ -142,6 +151,15 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input Variables.
+        /// </summary>
+        public static string InputVariablesCaption {
+            get {
+                return ResourceManager.GetString("InputVariablesCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid hidden layers format.
         /// </summary>
         public static string InvalidHiddenLayersFormatValidationMessage {
@@ -165,15 +183,6 @@ namespace SoftwareQualityPrediction.Properties {
         public static string LearningRateValidationMessage {
             get {
                 return ResourceManager.GetString("LearningRateValidationMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Location path does not exist.
-        /// </summary>
-        public static string LocationPathNoExistValidationMessage {
-            get {
-                return ResourceManager.GetString("LocationPathNoExistValidationMessage", resourceCulture);
             }
         }
         
@@ -241,11 +250,38 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No item selected for {0}.
+        /// </summary>
+        public static string NoItemSelectedValidationMessage {
+            get {
+                return ResourceManager.GetString("NoItemSelectedValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number Of Epochs.
         /// </summary>
         public static string NumberOfEpochsCaption {
             get {
                 return ResourceManager.GetString("NumberOfEpochsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output Variables.
+        /// </summary>
+        public static string OutputVariablesCaption {
+            get {
+                return ResourceManager.GetString("OutputVariablesCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Path does not exist.
+        /// </summary>
+        public static string PathNoExistValidationMessage {
+            get {
+                return ResourceManager.GetString("PathNoExistValidationMessage", resourceCulture);
             }
         }
         

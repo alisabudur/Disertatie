@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.OleDb;
 using System.Linq;
-using System.Runtime.Remoting;
 using System.Windows.Input;
 using Microsoft.Win32;
 using SoftwareQualityPrediction.Utils;
@@ -99,6 +98,8 @@ namespace SoftwareQualityPrediction.ViewModels
             }
         }
 
+        #region Mediato Implementation
+
         public void Send(object message)
         {
             Mediator.Send(message, this);
@@ -108,6 +109,8 @@ namespace SoftwareQualityPrediction.ViewModels
         {
             throw new System.NotImplementedException();
         }
+
+        #endregion
 
         private void UploadFile()
         {
@@ -178,6 +181,5 @@ namespace SoftwareQualityPrediction.ViewModels
         private List<string> _columns;
         private string _selectedIdColumn;
         private ICommand _uploadFile;
-        
     }
 }

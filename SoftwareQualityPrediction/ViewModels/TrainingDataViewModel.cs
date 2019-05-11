@@ -1,10 +1,15 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows.Input;
+using System.Windows.Navigation;
 using SoftwareQualityPrediction.Dtos;
 using SoftwareQualityPrediction.Utils;
+using SoftwareQualityPrediction.Views;
 
 namespace SoftwareQualityPrediction.ViewModels
 {
-    public class TrainingDataViewModel: BaseViewModel, IMediator
+    public class TrainingDataViewModel: BaseViewModel, IMediator, IDataErrorInfo
     {
         public TrainingDataViewModel()
         {
@@ -14,6 +19,7 @@ namespace SoftwareQualityPrediction.ViewModels
             _selectInputVariablesViewModel.Mediator = this;
             _selectOutputVariablesViewModel = new SelectItemsViewModel();
             _selectOutputVariablesViewModel.Mediator = this;
+            _errorList = new Dictionary<string, string>();
         }
 
         public UploadFileViewModel UploadFileViewModel
@@ -46,6 +52,19 @@ namespace SoftwareQualityPrediction.ViewModels
             }
         }
 
+        public bool NavigateToNextPageCanExecute
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(UploadFileViewModel.FilePath)
+                    && !string.IsNullOrEmpty(UploadFileViewModel.SelectedSheet)
+                    && !string.IsNullOrEmpty(UploadFileViewModel.SelectedIdColumn)
+                    && string.IsNullOrEmpty(Error);
+            }
+        }
+
+        #region Mediator Implementation
+
         public void Send(object message, IColleague colleague)
         {
             if (colleague == _uploadFileViewModel)
@@ -53,7 +72,81 @@ namespace SoftwareQualityPrediction.ViewModels
                 _selectInputVariablesViewModel.Receive(message);
                 _selectOutputVariablesViewModel.Receive(message);
             }
+
+            OnPropertyChanged(nameof(SelectInputVariablesViewModel));
+            OnPropertyChanged(nameof(SelectOutputVariablesViewModel));
         }
+
+        #endregion
+
+        #region DataErrorInfo Implementation
+
+        public string Error
+        {
+            get
+            {
+                if (_errorList.Count == 0)
+                    return string.Empty;
+
+                return _errorList.FirstOrDefault().Value;
+            }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = null;
+
+                switch (columnName)
+                {
+                    case nameof(SelectInputVariablesViewModel):
+                    {
+                        if (SelectInputVariablesViewModel.UnselectedItems.Any() &&
+                            !SelectInputVariablesViewModel.SelectedItems.Any())
+                        {
+                            error = string.Format(Properties.Resources.NoItemSelectedValidationMessage, 
+                                Properties.Resources.InputVariablesCaption);
+                        }
+
+                        break;
+                    }
+                    case nameof(SelectOutputVariablesViewModel):
+                    {
+                        if (SelectOutputVariablesViewModel.UnselectedItems.Any() &&
+                            !SelectOutputVariablesViewModel.SelectedItems.Any())
+                        {
+                            error = string.Format(Properties.Resources.NoItemSelectedValidationMessage,
+                                Properties.Resources.OutputVariablesCaption);
+                        }
+
+                        break;
+                    }
+                }
+
+                if (error != null)
+                {
+                    if (!_errorList.ContainsKey(columnName))
+                    {
+                        _errorList.Add(columnName, error);
+                    }
+                    else
+                    {
+                        _errorList[columnName] = error;
+                    }
+                }
+
+                if (error == null && _errorList.ContainsKey(columnName))
+                    _errorList.Remove(columnName);
+
+                OnPropertyChanged(nameof(Error));
+                OnPropertyChanged(nameof(NavigateToNextPageCanExecute));
+
+                return error;
+            }
+        }
+
+        #endregion
 
         public TrainingDataDto PrepareDto()
         {
@@ -70,5 +163,6 @@ namespace SoftwareQualityPrediction.ViewModels
         private UploadFileViewModel _uploadFileViewModel;
         private SelectItemsViewModel _selectInputVariablesViewModel;
         private SelectItemsViewModel _selectOutputVariablesViewModel;
+        private IDictionary<string, string> _errorList;
     }
 }

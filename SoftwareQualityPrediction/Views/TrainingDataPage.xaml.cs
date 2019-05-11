@@ -14,7 +14,7 @@ namespace SoftwareQualityPrediction.Views
             InitializeComponent();
         }
 
-        private void OnNextButtonClick(object sender, RoutedEventArgs e)
+        private void NavigateToNextPage(object sender, RoutedEventArgs e)
         {
             var viewModel = (TrainingDataViewModel) DataContext;
             var trainingDataDto = viewModel.PrepareDto();

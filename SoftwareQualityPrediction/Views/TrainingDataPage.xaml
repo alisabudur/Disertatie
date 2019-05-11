@@ -42,7 +42,7 @@
                       Grid.Column="0"
                       Margin="20">
                 <local:SelectItemsView
-                    DataContext="{Binding SelectInputVariablesViewModel}"
+                    DataContext="{Binding SelectInputVariablesViewModel, ValidatesOnDataErrors=True}"
                     Margin="10"/>
             </GroupBox>
 
@@ -50,7 +50,7 @@
                       Grid.Column="1"
                       Margin="20">
                 <local:SelectItemsView
-                    DataContext="{Binding SelectOutputVariablesViewModel}"
+                    DataContext="{Binding SelectOutputVariablesViewModel, ValidatesOnDataErrors=True}"
                     Margin="10"/>
             </GroupBox>
         </Grid>
@@ -58,13 +58,26 @@
         <Grid Grid.Row="2"
               Grid.Column="0">
             
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{Binding Error}" 
+                   Foreground="Red"
+                   HorizontalAlignment="Right"
+                   Margin="20"
+                   Grid.Column="0"/>
+
             <Button Content="{x:Static resx:Resources.NextCaption}"
-                    Click="OnNextButtonClick"
+                    Click="NavigateToNextPage"
+                    IsEnabled="{Binding NavigateToNextPageCanExecute}"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Margin="20"
                     Height="25"
-                    Width="120"/>
+                    Width="120"
+                    Grid.Column="1"/>
         </Grid>
     </Grid>
 </Page>
