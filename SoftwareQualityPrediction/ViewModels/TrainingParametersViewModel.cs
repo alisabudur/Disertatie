@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using SoftwareQualityPrediction.Dtos;
@@ -24,6 +25,10 @@ namespace SoftwareQualityPrediction.ViewModels
             _noEpochs = "1";
             _selectedActivationFunction = ActivationFunction.Sigmoid;
             _errorList = new Dictionary<string, string>();
+            _hiddenLayers = "1";
+            _neuralNetworkName = "default-name";
+            _neuralNetworkSavePath = @"C:\Users\alisa\\Desktop";
+            _trainingCompletedMessageVisibility = Visibility.Hidden;
         }
 
         public ICommand StartTrainingCommand => _startTraining ?? (_startTraining = new CommandHandler(StartTraining, _canExecute));
@@ -90,6 +95,16 @@ namespace SoftwareQualityPrediction.ViewModels
             }
         }
 
+        public string HiddenLayers
+        {
+            get { return _hiddenLayers; }
+            set
+            {
+                _hiddenLayers = value;
+                OnPropertyChanged(nameof(HiddenLayers));
+            }
+        }
+
         public ActivationFunction SelectedActivationFunction
         {
             get { return _selectedActivationFunction; }
@@ -97,6 +112,16 @@ namespace SoftwareQualityPrediction.ViewModels
             {
                 _selectedActivationFunction = value;
                 OnPropertyChanged(nameof(SelectedActivationFunction));
+            }
+        }
+
+        public Visibility TrainingCompletedMessageVisibility
+        {
+            get { return _trainingCompletedMessageVisibility; }
+            set
+            {
+                _trainingCompletedMessageVisibility = value;
+                OnPropertyChanged(nameof(TrainingCompletedMessageVisibility));
             }
         }
 
@@ -125,6 +150,7 @@ namespace SoftwareQualityPrediction.ViewModels
                 string error = null;
                 var doubleRegex = new Regex("^[0-9]+(.[0-9]+)?$");
                 var intRegex = new Regex("^[1-9][0-9]*$");
+                var hiddenLayersRegex = new Regex("^(\\d+)(;\\d+)*$");
 
                 if (columnName == nameof(LearningRate))
                 {
@@ -174,20 +200,43 @@ namespace SoftwareQualityPrediction.ViewModels
                 }
                 if (columnName == nameof(NeuralNetworkSavePath))
                 {
+                    if (!Directory.Exists(_neuralNetworkSavePath))
+                    {
+                        error = Properties.Resources.LocationPathNoExistValidationMessage;
+                    }
+
                     if (string.IsNullOrEmpty(_neuralNetworkSavePath))
                     {
                         error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
                             Properties.Resources.LocationToSaveCaption);
                     }
+                }
 
-                    if (!Directory.Exists(_neuralNetworkSavePath))
+                if (columnName == nameof(HiddenLayers))
+                {
+                    if (string.IsNullOrEmpty(_hiddenLayers))
                     {
-                        error = Properties.Resources.LocationPathNoExistValidationMessage;
+                        error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
+                            Properties.Resources.HiddenLayersCaption);
+                    }
+
+                    if (!hiddenLayersRegex.IsMatch(_hiddenLayers))
+                    {
+                        error = Properties.Resources.InvalidHiddenLayersFormatValidationMessage;
                     }
                 }
 
-                if (error != null && !_errorList.ContainsKey(columnName))
-                    _errorList.Add(columnName, error);
+                if (error != null)
+                {
+                    if (!_errorList.ContainsKey(columnName))
+                    {
+                        _errorList.Add(columnName, error);
+                    }
+                    else
+                    {
+                        _errorList[columnName] = error;
+                    }
+                }
 
                 if (error == null && _errorList.ContainsKey(columnName))
                     _errorList.Remove(columnName);
@@ -209,11 +258,17 @@ namespace SoftwareQualityPrediction.ViewModels
 
             var data = excelService.GetAllRows();
 
+            var hiddenLayers = HiddenLayers.Split(';')
+                .Select(x => Convert.ToInt32(x))
+                .ToList();
+
             var annSevice = new AnnTrainingService(Convert.ToDouble(_minError),
                 Convert.ToDouble(_learningRate),
                 Convert.ToInt32(_noEpochs),
                 _trainingDataDto.InputVariables.Count,
                 _trainingDataDto.OutputVariables.Count,
+                hiddenLayers,
+                _selectedActivationFunction,
                 data,
                 TrainingProgressChanged,
                 Path.Combine(NeuralNetworkSavePath, $"{NeuralNetworkName}.txt"));
@@ -237,6 +292,12 @@ namespace SoftwareQualityPrediction.ViewModels
         private void TrainingProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             ProgressBarValue = e.ProgressPercentage;
+
+            // If completed
+            TrainingCompletedMessageVisibility = 
+                e.ProgressPercentage == 100 
+                    ? Visibility.Visible 
+                    : Visibility.Hidden;
         }
 
         private bool _canExecute;
@@ -246,9 +307,11 @@ namespace SoftwareQualityPrediction.ViewModels
         private int _progressBarValue;
         private string _neuralNetworkName;
         private string _neuralNetworkSavePath;
+        private string _hiddenLayers;
         private IDictionary<string, string> _errorList;
         private ActivationFunction _selectedActivationFunction;
         private TrainingDataDto _trainingDataDto;
+        private Visibility _trainingCompletedMessageVisibility;
         private ICommand _startTraining;
         private ICommand _selectNeuralNetworkSavePath;
     }

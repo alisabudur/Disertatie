@@ -115,11 +115,38 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hidden Layers.
+        /// </summary>
+        public static string HiddenLayersCaption {
+            get {
+                return ResourceManager.GetString("HiddenLayersCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specifies the amount of neurons in each hidden layer. Each value represents the amount of neurons in a single hidden layer. Values are separated by &quot;;&quot;. Enter as many values as many hidden layers you want. Example: 10;3;4 is a specification for 3 hidden layers, with 10 neurons on the first hidden layer, 3 on the second and 4 on the third..
+        /// </summary>
+        public static string HiddenLayersDescription {
+            get {
+                return ResourceManager.GetString("HiddenLayersDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID Column.
         /// </summary>
         public static string IdColumnCaption {
             get {
                 return ResourceManager.GetString("IdColumnCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid hidden layers format.
+        /// </summary>
+        public static string InvalidHiddenLayersFormatValidationMessage {
+            get {
+                return ResourceManager.GetString("InvalidHiddenLayersFormatValidationMessage", resourceCulture);
             }
         }
         
@@ -336,6 +363,15 @@ namespace SoftwareQualityPrediction.Properties {
         public static string TestingCaption {
             get {
                 return ResourceManager.GetString("TestingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neural network trained successfuly!.
+        /// </summary>
+        public static string TrainingCompletedMessage {
+            get {
+                return ResourceManager.GetString("TrainingCompletedMessage", resourceCulture);
             }
         }
         

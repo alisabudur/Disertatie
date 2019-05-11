@@ -136,8 +136,17 @@
     <value>{0} field is required</value>
     <comment>{0} - the name of the field</comment>
   </data>
+  <data name="HiddenLayersCaption" xml:space="preserve">
+    <value>Hidden Layers</value>
+  </data>
+  <data name="HiddenLayersDescription" xml:space="preserve">
+    <value>Specifies the amount of neurons in each hidden layer. Each value represents the amount of neurons in a single hidden layer. Values are separated by ";". Enter as many values as many hidden layers you want. Example: 10;3;4 is a specification for 3 hidden layers, with 10 neurons on the first hidden layer, 3 on the second and 4 on the third.</value>
+  </data>
   <data name="IdColumnCaption" xml:space="preserve">
     <value>ID Column</value>
+  </data>
+  <data name="InvalidHiddenLayersFormatValidationMessage" xml:space="preserve">
+    <value>Invalid hidden layers format</value>
   </data>
   <data name="LearningRateCaption" xml:space="preserve">
     <value>Learning Rate</value>
@@ -210,6 +219,9 @@
   </data>
   <data name="TestingCaption" xml:space="preserve">
     <value>Testing</value>
+  </data>
+  <data name="TrainingCompletedMessage" xml:space="preserve">
+    <value>Neural network trained successfuly!</value>
   </data>
   <data name="TrainingDataCaption" xml:space="preserve">
     <value>Training Data</value>

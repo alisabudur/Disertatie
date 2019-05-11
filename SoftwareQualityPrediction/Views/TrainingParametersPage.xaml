@@ -119,6 +119,30 @@
                       Grid.Column="2"
                       Margin="15">
 
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="{x:Static resx:Resources.HiddenLayersCaption}" 
+                           Margin="5"
+                           Grid.Row="0"/>
+
+                    <TextBox Text="{Binding HiddenLayers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Margin="5"
+                             Height="25"
+                             Grid.Row="1"/>
+
+                    <TextBlock Text="{x:Static resx:Resources.HiddenLayersDescription}"
+                               TextWrapping="WrapWithOverflow"
+                               TextAlignment="Justify"
+                               FontStyle="Italic"
+                               Foreground="Gray"
+                               Margin="5"
+                               Grid.Row="2"/>
+                </Grid>
             </GroupBox>
         </Grid>
 
@@ -184,12 +208,26 @@
                 Width="120"
                 Grid.Row="2"/>
 
-        <ProgressBar Value="{Binding ProgressBarValue}"
-                     Minimum="0"
-                     Maximum="100"
-                     Height="25"
-                     Margin="20, 0"
-                     Grid.Row="3"/>
+        <Grid Margin="20, 0"
+              Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <ProgressBar Value="{Binding ProgressBarValue}"
+                         Minimum="0"
+                         Maximum="100"
+                         Height="25"
+                         Grid.Row="0"/>
+
+            <Label Content="{x:Static resx:Resources.TrainingCompletedMessage}" 
+                   Visibility="{Binding TrainingCompletedMessageVisibility}"
+                   HorizontalAlignment="Center"
+                   Margin="20"
+                   Grid.Row="1"/>
+
+        </Grid>
 
         <Label Content="{Binding Error}" 
                Foreground="Red"

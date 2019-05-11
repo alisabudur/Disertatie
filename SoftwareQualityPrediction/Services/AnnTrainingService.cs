@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Windows;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
 using SoftwareQualityPrediction.Extensions;
@@ -11,13 +10,15 @@ namespace SoftwareQualityPrediction.Services
 {
     public class AnnTrainingService
     {
-        public AnnTrainingService(double minError, 
-            double learningRate, 
-            int noEpochs, 
+        public AnnTrainingService(double minError,
+            double learningRate,
+            int noEpochs,
             int noOfInputNeurons,
             int noOfOutputNeurons,
+            List<int> hiddenLayers,
+            ActivationFunction activationFunction,
             IEnumerable<TrainingRow> trainingRows,
-            ProgressChangedEventHandler progressChangedEventHandler, 
+            ProgressChangedEventHandler progressChangedEventHandler,
             string savePath)
         {
             _minError = minError;
@@ -25,6 +26,8 @@ namespace SoftwareQualityPrediction.Services
             _noEpochs = noEpochs;
             _progressChangedEventHandler = progressChangedEventHandler;
             _savePath = savePath;
+            _hiddenLayers = hiddenLayers;
+            _activationFunction = activationFunction;
             _trainingRows = trainingRows;
             _noOfInputNeurons = noOfInputNeurons;
             _noOfOutputNeurons = noOfOutputNeurons;
@@ -55,11 +58,11 @@ namespace SoftwareQualityPrediction.Services
             var annEpochs = parameter.Epochs;
             var annError = parameter.Error;
 
-            int[] layers = {10, 10, 10, _noOfOutputNeurons };
+            _hiddenLayers.Add(_noOfOutputNeurons);
 
-            var network = new ActivationNetwork(new SigmoidFunction(), 
+            var network = new ActivationNetwork(_activationFunctions[_activationFunction],
                 _noOfInputNeurons,
-                layers);
+                _hiddenLayers.ToArray());
 
             var learning = new BackPropagationLearning(network)
             {
@@ -81,9 +84,6 @@ namespace SoftwareQualityPrediction.Services
                 epoch++;
             }
 
-            if(!File.Exists(_savePath))
-                network.Save(_savePath);
-
             worker.ReportProgress(100);
             e.Result = network;
         }
@@ -96,7 +96,10 @@ namespace SoftwareQualityPrediction.Services
             worker.RunWorkerCompleted -= worker_RunWorkerCompleted;
             var network = (Network)e.Result;
 
-            MessageBox.Show("Artificial neural network finished training!");
+            if (File.Exists(_savePath))
+                File.Delete(_savePath);
+
+            network.Save(_savePath);
         }
 
         private class AnnInfo
@@ -106,6 +109,13 @@ namespace SoftwareQualityPrediction.Services
             public double Error { get; set; }
         }
 
+        private IDictionary<ActivationFunction, IActivationFunction> _activationFunctions
+            = new Dictionary<ActivationFunction, IActivationFunction>
+            {
+                {ActivationFunction.Sigmoid, new SigmoidFunction()},
+                {ActivationFunction.BipolarSigmoid, new BipolarSigmoidFunction()}
+            };
+
         private BackgroundWorker _worker;
         private ProgressChangedEventHandler _progressChangedEventHandler;
         private IEnumerable<TrainingRow> _trainingRows;
@@ -114,6 +124,8 @@ namespace SoftwareQualityPrediction.Services
         private int _noEpochs;
         private int _noOfInputNeurons;
         private int _noOfOutputNeurons;
+        private List<int> _hiddenLayers;
+        private ActivationFunction _activationFunction;
         private string _savePath;
     }
 }
