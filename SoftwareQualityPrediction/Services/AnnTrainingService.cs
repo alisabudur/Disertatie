@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
+using DataAccess.Repositories;
 using SoftwareQualityPrediction.Extensions;
 using SoftwareQualityPrediction.Models;
 
@@ -13,8 +14,8 @@ namespace SoftwareQualityPrediction.Services
         public AnnTrainingService(double minError,
             double learningRate,
             int noEpochs,
-            int noOfInputNeurons,
-            int noOfOutputNeurons,
+            List<string> inputNeurons,
+            List<string> outputNeurons,
             List<int> hiddenLayers,
             ActivationFunction activationFunction,
             IEnumerable<TrainingRow> trainingRows,
@@ -29,9 +30,18 @@ namespace SoftwareQualityPrediction.Services
             _hiddenLayers = hiddenLayers;
             _activationFunction = activationFunction;
             _trainingRows = trainingRows;
-            _noOfInputNeurons = noOfInputNeurons;
-            _noOfOutputNeurons = noOfOutputNeurons;
+            _inputNeurons = inputNeurons;
+            _outputNeurons = outputNeurons;
             _worker = new BackgroundWorker();
+
+            var fileName = "NeuralNetworks.xls";
+            var nnFilePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+
+            if (!File.Exists(nnFilePath))
+                File.Create(nnFilePath);
+
+            var connectionString = $"Provider=Microsoft.Jet.OLEDB.4.0; data source={nnFilePath}; Extended Properties=Excel 8.0;";
+            _nnRepository = new Repository<NnModel>(connectionString);
         }
 
         public void StartTraining()
@@ -58,10 +68,10 @@ namespace SoftwareQualityPrediction.Services
             var annEpochs = parameter.Epochs;
             var annError = parameter.Error;
 
-            _hiddenLayers.Add(_noOfOutputNeurons);
+            _hiddenLayers.Add(_outputNeurons.Count);
 
             var network = new ActivationNetwork(_activationFunctions[_activationFunction],
-                _noOfInputNeurons,
+                _inputNeurons.Count,
                 _hiddenLayers.ToArray());
 
             var learning = new BackPropagationLearning(network)
@@ -96,8 +106,22 @@ namespace SoftwareQualityPrediction.Services
             worker.RunWorkerCompleted -= worker_RunWorkerCompleted;
             var network = (Network)e.Result;
 
+            var nnModel = new NnModel
+            {
+                Path = _savePath,
+                InputNodes = string.Join(";", _inputNeurons),
+                OutputNodes = string.Join(";", _outputNeurons)
+            };
+
             if (File.Exists(_savePath))
+            {
                 File.Delete(_savePath);
+                _nnRepository.Update(nnModel);
+            }
+            else
+            {
+                _nnRepository.Add(nnModel);
+            }
 
             network.Save(_savePath);
         }
@@ -122,10 +146,11 @@ namespace SoftwareQualityPrediction.Services
         private double _minError;
         private double _learningRate;
         private int _noEpochs;
-        private int _noOfInputNeurons;
-        private int _noOfOutputNeurons;
+        private List<string> _inputNeurons;
+        private List<string> _outputNeurons;
         private List<int> _hiddenLayers;
         private ActivationFunction _activationFunction;
         private string _savePath;
+        private IRepository<NnModel> _nnRepository;
     }
 }

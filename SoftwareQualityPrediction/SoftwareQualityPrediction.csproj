@@ -80,6 +80,7 @@
     <Compile Include="Dtos\TrainingDataDto.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Models\ActivationFunction.cs" />
+    <Compile Include="Models\NnModel.cs" />
     <Compile Include="Models\TrainingRows.cs" />
     <Compile Include="Models\TrainingRow.cs" />
     <Compile Include="Services\AnnTrainingService.cs" />
@@ -170,7 +171,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{0d422f5c-b05d-4015-903e-543c824a426c}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accord.3.8.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.8.0\build\Accord.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
