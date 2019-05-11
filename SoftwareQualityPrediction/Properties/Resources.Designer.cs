@@ -124,6 +124,15 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Go To Testing.
+        /// </summary>
+        public static string GoToTestingCaption {
+            get {
+                return ResourceManager.GetString("GoToTestingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hidden Layers.
         /// </summary>
         public static string HiddenLayersCaption {
@@ -232,6 +241,15 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Neural Network Path.
+        /// </summary>
+        public static string NeuralNetworkPathCaption {
+            get {
+                return ResourceManager.GetString("NeuralNetworkPathCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string NextCaption {
@@ -331,6 +349,15 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select The Neural Network.
+        /// </summary>
+        public static string SelectNNForTestingCaption {
+            get {
+                return ResourceManager.GetString("SelectNNForTestingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Output Variables.
         /// </summary>
         public static string SelectOutputVariablesCaption {
@@ -345,6 +372,15 @@ namespace SoftwareQualityPrediction.Properties {
         public static string SelectTerminationConditionCaption {
             get {
                 return ResourceManager.GetString("SelectTerminationConditionCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Testing Data File.
+        /// </summary>
+        public static string SelectTestingDataFileCaption {
+            get {
+                return ResourceManager.GetString("SelectTestingDataFileCaption", resourceCulture);
             }
         }
         
@@ -376,11 +412,29 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Should be exaclty {0} items selected.
+        /// </summary>
+        public static string ShouldBeExactlyValidationMessage {
+            get {
+                return ResourceManager.GetString("ShouldBeExactlyValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sigmoid.
         /// </summary>
         public static string SigmoidCaption {
             get {
                 return ResourceManager.GetString("SigmoidCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Testing.
+        /// </summary>
+        public static string StartTestingCaption {
+            get {
+                return ResourceManager.GetString("StartTestingCaption", resourceCulture);
             }
         }
         
@@ -403,7 +457,16 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Neural network trained successfuly!.
+        ///   Looks up a localized string similar to Testing completed!.
+        /// </summary>
+        public static string TestingCompletedCaption {
+            get {
+                return ResourceManager.GetString("TestingCompletedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neural network successfuly trained!.
         /// </summary>
         public static string TrainingCompletedMessage {
             get {

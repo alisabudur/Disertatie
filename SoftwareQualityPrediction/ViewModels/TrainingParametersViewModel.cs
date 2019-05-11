@@ -132,6 +132,11 @@ namespace SoftwareQualityPrediction.ViewModels
             get { return string.IsNullOrEmpty(Error); }
         }
 
+        public bool NavigateToNextPageCanExecute
+        {
+            get { return TrainingCompletedMessageVisibility == Visibility.Visible; }
+        }
+
         public void Populate(TrainingDataDto trainingDataDto)
         {
             _trainingDataDto = trainingDataDto;

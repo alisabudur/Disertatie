@@ -90,10 +90,14 @@
     <Compile Include="Utils\IMediator.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\SelectItemsViewModel.cs" />
+    <Compile Include="ViewModels\TestingViewModel.cs" />
     <Compile Include="ViewModels\TrainingDataViewModel.cs" />
     <Compile Include="ViewModels\TrainingParametersViewModel.cs" />
     <Compile Include="Views\SelectItemsView.xaml.cs">
       <DependentUpon>SelectItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TestingPage.xaml.cs">
+      <DependentUpon>TestingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TrainingDataPage.xaml.cs">
       <DependentUpon>TrainingDataPage.xaml</DependentUpon>
@@ -119,6 +123,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\SelectItemsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TestingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

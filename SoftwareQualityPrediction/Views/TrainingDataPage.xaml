@@ -56,7 +56,8 @@
         </Grid>
 
         <Grid Grid.Row="2"
-              Grid.Column="0">
+              Grid.Column="0"
+              Margin="20">
             
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10*"/>
@@ -66,7 +67,7 @@
             <Label Content="{Binding Error}" 
                    Foreground="Red"
                    HorizontalAlignment="Right"
-                   Margin="20"
+                   VerticalAlignment="Center"
                    Grid.Column="0"/>
 
             <Button Content="{x:Static resx:Resources.NextCaption}"
@@ -74,7 +75,6 @@
                     IsEnabled="{Binding NavigateToNextPageCanExecute}"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Margin="20"
                     Height="25"
                     Width="120"
                     Grid.Column="1"/>

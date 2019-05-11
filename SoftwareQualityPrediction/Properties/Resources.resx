@@ -225,7 +225,7 @@
     <value>Testing</value>
   </data>
   <data name="TrainingCompletedMessage" xml:space="preserve">
-    <value>Neural network trained successfuly!</value>
+    <value>Neural network successfuly trained!</value>
   </data>
   <data name="TrainingDataCaption" xml:space="preserve">
     <value>Training Data</value>
@@ -247,5 +247,27 @@
   </data>
   <data name="FileFieldCaption" xml:space="preserve">
     <value>File</value>
+  </data>
+  <data name="SelectTestingDataFileCaption" xml:space="preserve">
+    <value>Select Testing Data File</value>
+  </data>
+  <data name="GoToTestingCaption" xml:space="preserve">
+    <value>Go To Testing</value>
+  </data>
+  <data name="StartTestingCaption" xml:space="preserve">
+    <value>Start Testing</value>
+  </data>
+  <data name="SelectNNForTestingCaption" xml:space="preserve">
+    <value>Select The Neural Network</value>
+  </data>
+  <data name="NeuralNetworkPathCaption" xml:space="preserve">
+    <value>Neural Network Path</value>
+  </data>
+  <data name="ShouldBeExactlyValidationMessage" xml:space="preserve">
+    <value>Should be exaclty {0} items selected</value>
+    <comment>{0} - number of items that should be selected</comment>
+  </data>
+  <data name="TestingCompletedCaption" xml:space="preserve">
+    <value>Testing completed!</value>
   </data>
 </root>

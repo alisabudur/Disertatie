@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Input;
-using System.Windows.Navigation;
 using SoftwareQualityPrediction.Dtos;
 using SoftwareQualityPrediction.Utils;
-using SoftwareQualityPrediction.Views;
 
 namespace SoftwareQualityPrediction.ViewModels
 {
@@ -13,12 +10,9 @@ namespace SoftwareQualityPrediction.ViewModels
     {
         public TrainingDataViewModel()
         {
-            _uploadFileViewModel = new UploadFileViewModel();
-            _uploadFileViewModel.Mediator = this;
-            _selectInputVariablesViewModel = new SelectItemsViewModel();
-            _selectInputVariablesViewModel.Mediator = this;
-            _selectOutputVariablesViewModel = new SelectItemsViewModel();
-            _selectOutputVariablesViewModel.Mediator = this;
+            _uploadFileViewModel = new UploadFileViewModel {Mediator = this};
+            _selectInputVariablesViewModel = new SelectItemsViewModel {Mediator = this};
+            _selectOutputVariablesViewModel = new SelectItemsViewModel {Mediator = this};
             _errorList = new Dictionary<string, string>();
         }
 

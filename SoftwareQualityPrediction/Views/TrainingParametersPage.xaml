@@ -20,12 +20,12 @@
         <utils:EnumToBoolConverter x:Key="EnumToBoolConverter"/>
     </Page.Resources>
 
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
@@ -38,7 +38,7 @@
 
             <GroupBox Header="{x:Static resx:Resources.SelectAnnParametersCaption}"
                       Grid.Column="0"
-                      Margin="15">
+                      Margin="20">
 
                 <Grid Margin="20">
                     <Grid.RowDefinitions>
@@ -83,7 +83,7 @@
 
             <GroupBox Header="{x:Static resx:Resources.SelectTerminationConditionCaption}"
                       Grid.Column="1"
-                      Margin="15">
+                      Margin="20">
 
                 <Grid Margin="20">
                     <Grid.RowDefinitions>
@@ -117,7 +117,7 @@
 
             <GroupBox Header="{x:Static resx:Resources.SelectHiddenLayersCaption}"
                       Grid.Column="2"
-                      Margin="15">
+                      Margin="20">
 
                 <Grid Margin="20">
                     <Grid.RowDefinitions>
@@ -154,9 +154,9 @@
 
             <GroupBox Header="{x:Static resx:Resources.SaveSettingsCaption}"
                       Grid.Column="0"
-                      Margin="15">
+                      Margin="20">
 
-                <Grid Margin="20">
+                <Grid Margin="20, 15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -209,32 +209,42 @@
                 Width="120"
                 Grid.Row="2"/>
 
-        <Grid Margin="20, 0"
-              Grid.Row="3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <Grid Grid.Row="4" 
+              Margin="20">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
 
             <ProgressBar Value="{Binding ProgressBarValue}"
                          Minimum="0"
                          Maximum="100"
                          Height="25"
-                         Grid.Row="0"/>
+                         Grid.Column="0"/>
 
             <Label Content="{x:Static resx:Resources.TrainingCompletedMessage}" 
                    Visibility="{Binding TrainingCompletedMessageVisibility}"
                    HorizontalAlignment="Center"
-                   Margin="20"
-                   Grid.Row="1"/>
+                   Margin="20, 0"
+                   Grid.Column="1"/>
 
+            <Label Content="{Binding Error}" 
+                   Foreground="Red"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   Grid.Column="2"/>
+
+            <Button Content="{x:Static resx:Resources.GoToTestingCaption}"
+                    Click="NavigateToNextPage"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Height="25"
+                    Width="120"
+                    Grid.Column="3"/>
         </Grid>
-
-        <Label Content="{Binding Error}" 
-               Foreground="Red"
-               HorizontalAlignment="Right"
-               Margin="20"
-               Grid.Row="4"/>
 
     </Grid>
 </Page>

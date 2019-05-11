@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using SoftwareQualityPrediction.Dtos;
 using SoftwareQualityPrediction.ViewModels;
 
@@ -14,6 +15,11 @@ namespace SoftwareQualityPrediction.Views
             InitializeComponent();
             var viewModel = (TrainingParametersViewModel) DataContext;
             viewModel.Populate(trainingDataDto);
+        }
+
+        private void NavigateToNextPage(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new TestingPage());
         }
     }
 }

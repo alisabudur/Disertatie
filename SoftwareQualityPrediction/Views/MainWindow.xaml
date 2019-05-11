@@ -20,7 +20,7 @@
                 <MenuItem Header="{x:Static resx:Resources.MenuCaption}">
                     <MenuItem Header="{x:Static resx:Resources.TrainingDataCaption}" Command="{Binding NavigateToTrainingDataPageCommand}"/>
                     <Separator />
-                    <MenuItem Header="Exit" />
+                    <MenuItem Header="{x:Static resx:Resources.TestingCaption}" Command="{Binding NavigateToTestingPageCommand}"/>
                 </MenuItem>
             </Menu>
             <Frame x:Name="MainFrame" Content="{Binding Page}"/>
