@@ -16,16 +16,16 @@
         
         <ListBox Grid.Column="0"
                  Margin="10"
-                 Height="200"
+                 Height="Auto"
                  ItemsSource="{Binding UnselectedItems, Mode=TwoWay}"
                  SelectedItem="{Binding ItemToAdd}"
                  SelectionMode="Single"/>
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
                 <RowDefinition Height="8*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="1">
@@ -38,12 +38,15 @@
                         Margin="20"
                         Height="25"
                         Width="120"
+                        VerticalAlignment="Bottom"
                         Content="{x:Static resx:Resources.AddCaption}"
                         Command="{Binding AddCommand}"/>
+
                 <Button Grid.Row="1"
                         Margin="20"
                         Height="25"
                         Width="120"
+                        VerticalAlignment="Top"
                         Content="{x:Static resx:Resources.RemoveCaption}"
                         Command="{Binding RemoveCommand}"/>
             </Grid>
@@ -52,7 +55,7 @@
 
         <ListBox Grid.Column="2"
                  Margin="10"
-                 Height="200"
+                 Height="Auto"
                  ItemsSource="{Binding SelectedItems, Mode=TwoWay}"
                  SelectedItem="{Binding ItemToRemove}"
                  SelectionMode="Single"/>
