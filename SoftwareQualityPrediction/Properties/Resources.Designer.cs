@@ -61,11 +61,29 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Activation Function.
+        /// </summary>
+        public static string ActivationFunctionCaption {
+            get {
+                return ResourceManager.GetString("ActivationFunctionCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add &gt;&gt;.
         /// </summary>
         public static string AddCaption {
             get {
                 return ResourceManager.GetString("AddCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bipolar Sigmoid.
+        /// </summary>
+        public static string BipolarSigmoidCaption {
+            get {
+                return ResourceManager.GetString("BipolarSigmoidCaption", resourceCulture);
             }
         }
         
@@ -88,6 +106,15 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} field is required.
+        /// </summary>
+        public static string FieldIsRequiredValidationMessage {
+            get {
+                return ResourceManager.GetString("FieldIsRequiredValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID Column.
         /// </summary>
         public static string IdColumnCaption {
@@ -106,11 +133,29 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Learning Rate must be a positive number.
+        ///   Looks up a localized string similar to Learning Rate must be a positive real number.
         /// </summary>
         public static string LearningRateValidationMessage {
             get {
                 return ResourceManager.GetString("LearningRateValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location path does not exist.
+        /// </summary>
+        public static string LocationPathNoExistValidationMessage {
+            get {
+                return ResourceManager.GetString("LocationPathNoExistValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location .
+        /// </summary>
+        public static string LocationToSaveCaption {
+            get {
+                return ResourceManager.GetString("LocationToSaveCaption", resourceCulture);
             }
         }
         
@@ -124,7 +169,7 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Minimum Error must be a positive number.
+        ///   Looks up a localized string similar to Minimum Error must be a positive real number.
         /// </summary>
         public static string MinErrorValidationMessage {
             get {
@@ -142,6 +187,15 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Neural Network Name.
+        /// </summary>
+        public static string NeuralNetworkNameCaption {
+            get {
+                return ResourceManager.GetString("NeuralNetworkNameCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string NextCaption {
@@ -151,7 +205,7 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number Of Epochs must be a positive number.
+        ///   Looks up a localized string similar to Number Of Epochs must be a positive number greater than 0.
         /// </summary>
         public static string NoEpochsValidationMessage {
             get {
@@ -178,6 +232,33 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save settings.
+        /// </summary>
+        public static string SaveSettingsCaption {
+            get {
+                return ResourceManager.GetString("SaveSettingsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Neural Network Parameters.
+        /// </summary>
+        public static string SelectAnnParametersCaption {
+            get {
+                return ResourceManager.GetString("SelectAnnParametersCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Hidden Layers.
+        /// </summary>
+        public static string SelectHiddenLayersCaption {
+            get {
+                return ResourceManager.GetString("SelectHiddenLayersCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Input Variables.
         /// </summary>
         public static string SelectInputVariablesCaption {
@@ -196,20 +277,20 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Termination Condition.
+        /// </summary>
+        public static string SelectTerminationConditionCaption {
+            get {
+                return ResourceManager.GetString("SelectTerminationConditionCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Training Data File.
         /// </summary>
         public static string SelectTrainingDataFileCaption {
             get {
                 return ResourceManager.GetString("SelectTrainingDataFileCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select Training Parameters.
-        /// </summary>
-        public static string SelectTrainingParametersCaption {
-            get {
-                return ResourceManager.GetString("SelectTrainingParametersCaption", resourceCulture);
             }
         }
         
@@ -228,6 +309,15 @@ namespace SoftwareQualityPrediction.Properties {
         public static string SheetCaption {
             get {
                 return ResourceManager.GetString("SheetCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sigmoid.
+        /// </summary>
+        public static string SigmoidCaption {
+            get {
+                return ResourceManager.GetString("SigmoidCaption", resourceCulture);
             }
         }
         

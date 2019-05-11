@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
@@ -13,15 +14,17 @@ namespace SoftwareQualityPrediction.Services
         public AnnTrainingService(double minError, 
             double learningRate, 
             int noEpochs, 
-            ProgressChangedEventHandler progressChangedEventHandler, 
-            IEnumerable<TrainingRow> trainingRows,
             int noOfInputNeurons,
-            int noOfOutputNeurons)
+            int noOfOutputNeurons,
+            IEnumerable<TrainingRow> trainingRows,
+            ProgressChangedEventHandler progressChangedEventHandler, 
+            string savePath)
         {
             _minError = minError;
             _learningRate = learningRate;
             _noEpochs = noEpochs;
             _progressChangedEventHandler = progressChangedEventHandler;
+            _savePath = savePath;
             _trainingRows = trainingRows;
             _noOfInputNeurons = noOfInputNeurons;
             _noOfOutputNeurons = noOfOutputNeurons;
@@ -78,6 +81,9 @@ namespace SoftwareQualityPrediction.Services
                 epoch++;
             }
 
+            if(!File.Exists(_savePath))
+                network.Save(_savePath);
+
             worker.ReportProgress(100);
             e.Result = network;
         }
@@ -108,5 +114,6 @@ namespace SoftwareQualityPrediction.Services
         private int _noEpochs;
         private int _noOfInputNeurons;
         private int _noOfOutputNeurons;
+        private string _savePath;
     }
 }

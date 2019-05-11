@@ -6,6 +6,8 @@
       xmlns:local="clr-namespace:SoftwareQualityPrediction.Views"
       xmlns:viewModels="clr-namespace:SoftwareQualityPrediction.ViewModels"
       xmlns:resx="clr-namespace:SoftwareQualityPrediction.Properties"
+      xmlns:utils="clr-namespace:SoftwareQualityPrediction.Utils"
+      xmlns:models="clr-namespace:SoftwareQualityPrediction.Models"
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1200"
       Title="{x:Static resx:Resources.TrainingParametersCaption}">
@@ -13,93 +15,167 @@
     <Page.DataContext>
         <viewModels:TrainingParametersViewModel/>
     </Page.DataContext>
+    
+    <Page.Resources>
+        <utils:EnumToBoolConverter x:Key="EnumToBoolConverter"/>
+    </Page.Resources>
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
-        <GroupBox Header="{x:Static resx:Resources.SelectTrainingParametersCaption}"
-                  Grid.Row="0"
-                  Margin="10">
-            <Grid Margin="15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <GroupBox Header="{x:Static resx:Resources.SelectAnnParametersCaption}"
+                      Grid.Column="0"
+                      Margin="15">
 
-                <Label Content="{x:Static resx:Resources.MinimumErrorCaption}" 
-                       Margin="5"
-                       Grid.Column="0"
-                       Grid.Row="0" />
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="7*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
 
-                <TextBox Text="{Binding MinError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                         Margin="5"
-                         Height="25"
-                         Grid.Column="0"
-                         Grid.Row="1"/>
+                    <GroupBox Header="{x:Static resx:Resources.ActivationFunctionCaption}">
+                        <Grid Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="6*"/>
+                                <RowDefinition Height="6*"/>
+                            </Grid.RowDefinitions>
 
-                <Label Content="{x:Static resx:Resources.LearningRateCaption}" 
-                       Margin="5"
-                       Grid.Column="1"
-                       Grid.Row="0" />
+                            <RadioButton Grid.Row="0"
+                                         Content="{x:Static resx:Resources.SigmoidCaption}"
+                                         VerticalAlignment="Center"
+                                         IsChecked="{Binding SelectedActivationFunction, 
+                                         Converter={StaticResource EnumToBoolConverter}, 
+                                         ConverterParameter={x:Static models:ActivationFunction.Sigmoid}}"/>
 
-                <TextBox Text="{Binding LearningRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                         Margin="5"
-                         Height="25"
-                         Grid.Column="1"
-                         Grid.Row="1"/>
+                            <RadioButton Grid.Row="1"
+                                         Content="{x:Static resx:Resources.BipolarSigmoidCaption}"
+                                         VerticalAlignment="Center"
+                                         IsChecked="{Binding SelectedActivationFunction, 
+                                         Converter={StaticResource EnumToBoolConverter}, 
+                                         ConverterParameter={x:Static models:ActivationFunction.BipolarSigmoid}}"/>  
+                        </Grid>
+                    </GroupBox>
 
-                <Label Content="{x:Static resx:Resources.NumberOfEpochsCaption}" 
-                       Margin="5"
-                       Grid.Column="2"
-                       Grid.Row="0" />
+                    <Label Content="{x:Static resx:Resources.LearningRateCaption}" 
+                           Grid.Row="1" 
+                           Margin="5"/>
 
-                <TextBox Text="{Binding NoEpochs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                         Margin="5"
-                         Height="25"
-                         Grid.Column="2"
-                         Grid.Row="1"/>
-            </Grid>
-        </GroupBox>
-        
-        <GroupBox Header="{x:Static resx:Resources.SelectValidationParametersCaption}"
-                  Grid.Row="1"
-                  Margin="10">
-            <Grid Margin="15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding LearningRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Height="25"
+                             Margin="5"
+                             Grid.Row="2"/>
+                </Grid>
+            </GroupBox>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <GroupBox Header="{x:Static resx:Resources.SelectTerminationConditionCaption}"
+                      Grid.Column="1"
+                      Margin="15">
 
-                <Label Content="{x:Static resx:Resources.CrossValidationParameterCaption}" 
-                       Margin="5"
-                       Grid.Column="0"
-                       Grid.Row="0" />
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                <TextBox Text="{Binding CrossValidationK, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                         Margin="5"
-                         Height="25"
-                         Grid.Column="0"
-                         Grid.Row="1"/>
-            </Grid>
-        </GroupBox>
+                    <Label Content="{x:Static resx:Resources.MinimumErrorCaption}" 
+                           Margin="5"
+                           Grid.Column="0"
+                           Grid.Row="0" />
+
+                    <TextBox Text="{Binding MinError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Margin="5"
+                             Height="25"
+                             Grid.Column="0"
+                             Grid.Row="1"/>
+
+                    <Label Content="{x:Static resx:Resources.NumberOfEpochsCaption}" 
+                           Margin="5"
+                           Grid.Row="2" />
+
+                    <TextBox Text="{Binding NoEpochs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Margin="5"
+                             Height="25"
+                             Grid.Row="3"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Header="{x:Static resx:Resources.SelectHiddenLayersCaption}"
+                      Grid.Column="2"
+                      Margin="15">
+
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="{x:Static resx:Resources.SaveSettingsCaption}"
+                      Grid.Column="0"
+                      Margin="15">
+
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*"/>
+                        <ColumnDefinition Width="6*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="{x:Static resx:Resources.NeuralNetworkNameCaption}" 
+                           Margin="5"
+                           Grid.Row="0"
+                           Grid.Column="0"/>
+
+                    <TextBox Text="{Binding NeuralNetworkName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Margin="5"
+                             Height="25"
+                             Grid.Row="1"
+                             Grid.Column="0"/>
+
+                    <Label Content="{x:Static resx:Resources.LocationToSaveCaption}" 
+                           Margin="5"
+                           Grid.Row="0"
+                           Grid.Column="1"/>
+
+                    <TextBox Text="{Binding NeuralNetworkSavePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Margin="5"
+                             Height="25"
+                             Grid.Row="1"
+                             Grid.Column="1"/>
+                    
+                    <Button Content="{x:Static resx:Resources.BrowseCaption}"
+                            Command="{Binding SelectNeuralNetworkSavePathCommand}"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Height="25"
+                            Margin="5"/>
+                </Grid>
+
+            </GroupBox>
+        </Grid>
 
         <Button Content="{x:Static resx:Resources.StartTrainingCaption}" 
                 Command="{Binding StartTrainingCommand}"
@@ -108,15 +184,18 @@
                 Width="120"
                 Grid.Row="2"/>
 
-        <GroupBox Header="{x:Static resx:Resources.TrainingResultCaption}"
-                  Grid.Row="3"
-                  Margin="10">
+        <ProgressBar Value="{Binding ProgressBarValue}"
+                     Minimum="0"
+                     Maximum="100"
+                     Height="25"
+                     Margin="20, 0"
+                     Grid.Row="3"/>
 
-            <ProgressBar Value="{Binding ProgressBarValue}"
-                         Minimum="0"
-                         Maximum="100"
-                         Height="25"
-                         Margin="50"/>
-        </GroupBox>
+        <Label Content="{Binding Error}" 
+               Foreground="Red"
+               HorizontalAlignment="Right"
+               Margin="20"
+               Grid.Row="4"/>
+
     </Grid>
 </Page>

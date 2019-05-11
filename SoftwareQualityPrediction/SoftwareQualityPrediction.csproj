@@ -79,11 +79,13 @@
     </ApplicationDefinition>
     <Compile Include="Dtos\TrainingDataDto.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Models\ActivationFunction.cs" />
     <Compile Include="Models\TrainingRows.cs" />
     <Compile Include="Models\TrainingRow.cs" />
     <Compile Include="Services\AnnTrainingService.cs" />
     <Compile Include="Services\ExcelService.cs" />
     <Compile Include="Utils\CommandHandler.cs" />
+    <Compile Include="Utils\EnumToBoolConverter.cs" />
     <Compile Include="Utils\IColleague.cs" />
     <Compile Include="Utils\IMediator.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
