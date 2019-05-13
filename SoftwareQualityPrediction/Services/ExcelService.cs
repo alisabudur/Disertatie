@@ -19,14 +19,14 @@ namespace SoftwareQualityPrediction.Services
             _idColumn = idColumn;
             _inputVariables = inputVariables;
             _outputVariables = outputVariables;
+            _connectionString = $"Provider=Microsoft.Jet.OLEDB.4.0; data source={_filePath}; Extended Properties=Excel 8.0;";
         }
 
         public IEnumerable<TrainingRow> GetAllRows()
         {
             var rows = new List<TrainingRow>();
-            var connectionString = $"Provider=Microsoft.Jet.OLEDB.4.0; data source={_filePath}; Extended Properties=Excel 8.0;";
 
-            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            using (OleDbConnection connection = new OleDbConnection(_connectionString))
             {
                 OleDbCommand command = new OleDbCommand(GetSelectStatement(), connection);
                 connection.Open();
@@ -53,6 +53,19 @@ namespace SoftwareQualityPrediction.Services
             return rows;
         }
 
+        public void UpdateRow(TrainingRow row)
+        {
+            var updateStatement = GetUpdateStatement(row);
+
+            using (OleDbConnection connection = new OleDbConnection(_connectionString))
+            {
+                connection.Open();
+                OleDbCommand command = new
+                    OleDbCommand(updateStatement, connection);
+                command.ExecuteNonQuery();
+            }
+        }
+
         private string GetSelectStatement()
         {
             var stringBuilder = new StringBuilder();
@@ -63,6 +76,33 @@ namespace SoftwareQualityPrediction.Services
             stringBuilder.AppendLine($"FROM [{_sheet}]");
 
             return stringBuilder.ToString();
+        }
+
+        private string GetUpdateStatement(TrainingRow entity)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine($"UPDATE [{_sheet}]");
+            stringBuilder.AppendLine($"SET {GetSetStatement(entity)}");
+            stringBuilder.AppendLine($"WHERE {_idColumn} = '{entity.IdColumn}'");
+            return stringBuilder.ToString();
+        }
+
+        private string GetSetStatement(TrainingRow entity)
+        {
+            var setList = new List<string>();
+
+            if(_outputVariables.Count != entity.Output.Length)
+                throw new ArgumentException("Number of output columns different than the number of output variables. ");
+
+            for (var i = 0; i < _outputVariables.Count; i++)
+            {
+                var variable = _outputVariables[i];
+                var value = entity.Output[i];
+
+                setList.Add($"[{variable}] = {value}");
+            }
+
+            return string.Join($",{Environment.NewLine}", setList);
         }
 
         private double[] GetArrayOfVariables(OleDbDataReader reader, List<string> variables)
@@ -84,6 +124,7 @@ namespace SoftwareQualityPrediction.Services
         private string _filePath;
         private string _sheet;
         private string _idColumn;
+        private string _connectionString;
         private List<string> _inputVariables;
         private List<string> _outputVariables;
     }

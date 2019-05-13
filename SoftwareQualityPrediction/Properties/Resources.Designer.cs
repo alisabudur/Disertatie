@@ -277,11 +277,29 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not all neural network variables are mapped.
+        /// </summary>
+        public static string NotAllNNVariablesAreMappedValidationMessage {
+            get {
+                return ResourceManager.GetString("NotAllNNVariablesAreMappedValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number Of Epochs.
         /// </summary>
         public static string NumberOfEpochsCaption {
             get {
                 return ResourceManager.GetString("NumberOfEpochsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output Columns.
+        /// </summary>
+        public static string OutputColumnsCaption {
+            get {
+                return ResourceManager.GetString("OutputColumnsCaption", resourceCulture);
             }
         }
         
@@ -358,6 +376,15 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Output Columns.
+        /// </summary>
+        public static string SelectOutputColumnsCaption {
+            get {
+                return ResourceManager.GetString("SelectOutputColumnsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Output Variables.
         /// </summary>
         public static string SelectOutputVariablesCaption {
@@ -399,6 +426,15 @@ namespace SoftwareQualityPrediction.Properties {
         public static string SelectValidationParametersCaption {
             get {
                 return ResourceManager.GetString("SelectValidationParametersCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must upload a file that contains the following input valiables: {0}..
+        /// </summary>
+        public static string SelectVariablesCaption {
+            get {
+                return ResourceManager.GetString("SelectVariablesCaption", resourceCulture);
             }
         }
         
@@ -457,7 +493,7 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Testing completed!.
+        ///   Looks up a localized string similar to Testing completed! Results are in the uploaded file..
         /// </summary>
         public static string TestingCompletedCaption {
             get {

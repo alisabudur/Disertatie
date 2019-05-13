@@ -16,55 +16,21 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="8*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="6*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
         <GroupBox Header="{x:Static resx:Resources.SelectTestingDataFileCaption}"
                   Grid.Row="0"
                   Grid.Column="0"
-                  Margin="20, 10, 20, 0">
+                  Margin="20">
             <local:UploadFileView
-                DataContext="{Binding UploadFileViewModel}"
+                DataContext="{Binding UploadFileViewModel, ValidatesOnDataErrors=True}"
                 Margin="10"/>
         </GroupBox>
 
         <Grid Grid.Row="1"
-                  Grid.Column="0"
-                  Margin="20, 0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="6*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="8*"/>
-            </Grid.ColumnDefinitions>
-
-            <Label Content="{x:Static resx:Resources.NeuralNetworkPathCaption}" 
-                           Margin="5"
-                           Grid.Row="0"
-                           Grid.Column="0"/>
-
-            <TextBox Text="{Binding NeuralNetworkPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                             Margin="5"
-                             Height="25"
-                             Grid.Row="1"
-                             Grid.Column="0"/>
-
-            <Button Content="{x:Static resx:Resources.BrowseCaption}"
-                            Command="{Binding SelectNeuralNetworkPathCommand}"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Height="25"
-                            Margin="5"/>
-        </Grid>
-
-        <Grid Grid.Row="2"
               Grid.Column="0">
 
             <Grid.ColumnDefinitions>
@@ -72,26 +38,54 @@
                 <ColumnDefinition Width="6*"/>
             </Grid.ColumnDefinitions>
 
-            <GroupBox Header="{x:Static resx:Resources.SelectInputVariablesCaption}"
+            <GroupBox Header="{x:Static resx:Resources.SelectOutputColumnsCaption}"
                       Grid.Column="0"
-                      Margin="20, 0">
+                      Margin="20">
                 <local:SelectItemsView
-                    DataContext="{Binding SelectInputVariablesViewModel, ValidatesOnDataErrors=True}"
+                    DataContext="{Binding SelectOutputColumnsViewModel, ValidatesOnDataErrors=True}"
                     Margin="10"/>
             </GroupBox>
 
-            <GroupBox Header="{x:Static resx:Resources.SelectOutputVariablesCaption}"
+            <GroupBox Header="{x:Static resx:Resources.SelectNNForTestingCaption}"
                       Grid.Column="1"
-                      Margin="20, 0">
-                <local:SelectItemsView
-                    DataContext="{Binding SelectOutputVariablesViewModel, ValidatesOnDataErrors=True}"
-                    Margin="10"/>
+                      Margin="20">
+
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="{x:Static resx:Resources.NeuralNetworkPathCaption}" 
+                               Margin="5"
+                               Grid.Row="0"
+                               Grid.Column="0"/>
+
+                    <TextBox Text="{Binding NeuralNetworkPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                 Margin="5"
+                                 Height="25"
+                                 Grid.Row="1"
+                                 Grid.Column="0"/>
+
+                    <Button Content="{x:Static resx:Resources.BrowseCaption}"
+                                Command="{Binding SelectNeuralNetworkPathCommand}"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Height="25"
+                                Margin="5"/>
+                </Grid>
             </GroupBox>
         </Grid>
 
-        <Grid Grid.Row="3"
+        <Grid Grid.Row="2"
               Grid.Column="0"
-              Margin="20, 10, 20, 0">
+              Margin="20">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
@@ -109,7 +103,6 @@
             <Label Content="{x:Static resx:Resources.TestingCompletedCaption}" 
                    Visibility="{Binding TestingCompletedMessageVisibility}"
                    HorizontalAlignment="Center"
-                   Margin="20, 0"
                    Grid.Column="1"/>
 
             <Label Content="{Binding Error}" 
@@ -120,7 +113,6 @@
 
             <Button Content="{x:Static resx:Resources.StartTestingCaption}"
                     Command="{Binding StartTestingCommand}"
-                    IsEnabled="{Binding StartTestingCanExecute}"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Height="25"

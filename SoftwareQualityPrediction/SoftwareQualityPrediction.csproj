@@ -83,6 +83,7 @@
     <Compile Include="Models\NnModel.cs" />
     <Compile Include="Models\TrainingRows.cs" />
     <Compile Include="Models\TrainingRow.cs" />
+    <Compile Include="Services\AnnTestingService.cs" />
     <Compile Include="Services\AnnTrainingService.cs" />
     <Compile Include="Services\ExcelService.cs" />
     <Compile Include="Utils\CommandHandler.cs" />

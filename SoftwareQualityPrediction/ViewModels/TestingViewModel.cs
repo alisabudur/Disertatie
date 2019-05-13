@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using Accord.Neuro;
 using Microsoft.Win32;
+using SoftwareQualityPrediction.Services;
 using SoftwareQualityPrediction.Utils;
 
 namespace SoftwareQualityPrediction.ViewModels
@@ -15,10 +15,8 @@ namespace SoftwareQualityPrediction.ViewModels
         public TestingViewModel()
         {
             _uploadFileViewModel = new UploadFileViewModel {Mediator = this};
-            _selectInputVariablesViewModel = new SelectItemsViewModel {Mediator = this};
-            _selectOutputVariablesViewModel = new SelectItemsViewModel {Mediator = this};
+            _selectOutputColumnsViewModel = new SelectItemsViewModel {Mediator = this};
             _errorList = new Dictionary<string, string>();
-            _neuralNetworkInputsCount = 1;
             _testingCompletedMessageVisibility = Visibility.Hidden;
         }
 
@@ -27,8 +25,7 @@ namespace SoftwareQualityPrediction.ViewModels
                    () => true));
 
         public ICommand StartTestingCommand
-            => _selectNeuralNetworkPath ?? (_selectNeuralNetworkPath = new CommandHandler(StartTesting,
-                   () => StartTestingCanExecute));
+            => _startTesting ?? (_startTesting = new CommandHandler(StartTesting, StartTestingCanExecute));
 
         public UploadFileViewModel UploadFileViewModel
         {
@@ -40,23 +37,13 @@ namespace SoftwareQualityPrediction.ViewModels
             }
         }
 
-        public SelectItemsViewModel SelectInputVariablesViewModel
+        public SelectItemsViewModel SelectOutputColumnsViewModel
         {
-            get { return _selectInputVariablesViewModel; }
+            get { return _selectOutputColumnsViewModel; }
             set
             {
-                _selectInputVariablesViewModel = value;
-                OnPropertyChanged(nameof(SelectInputVariablesViewModel));
-            }
-        }
-
-        public SelectItemsViewModel SelectOutputVariablesViewModel
-        {
-            get { return _selectOutputVariablesViewModel; }
-            set
-            {
-                _selectOutputVariablesViewModel = value;
-                OnPropertyChanged(nameof(SelectOutputVariablesViewModel));
+                _selectOutputColumnsViewModel = value;
+                OnPropertyChanged(nameof(SelectOutputColumnsViewModel));
             }
         }
 
@@ -90,29 +77,20 @@ namespace SoftwareQualityPrediction.ViewModels
             }
         }
 
-        public bool StartTestingCanExecute
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(UploadFileViewModel.FilePath)
-                       && !string.IsNullOrEmpty(UploadFileViewModel.SelectedSheet)
-                       && !string.IsNullOrEmpty(UploadFileViewModel.SelectedIdColumn)
-                       && string.IsNullOrEmpty(Error);
-            }
-        }
-
         #region Mediator Implementation
 
         public void Send(object message, IColleague colleague)
         {
             if (colleague == _uploadFileViewModel)
             {
-                _selectInputVariablesViewModel.Receive(message);
-                _selectOutputVariablesViewModel.Receive(message);
+                _selectOutputColumnsViewModel.Receive(message);
+                OnPropertyChanged(nameof(UploadFileViewModel));
+                OnPropertyChanged(nameof(NeuralNetworkPath));
+                ProgressBarValue = 0;
+                TestingCompletedMessageVisibility = Visibility.Hidden;
             }
 
-            OnPropertyChanged(nameof(SelectInputVariablesViewModel));
-            OnPropertyChanged(nameof(SelectOutputVariablesViewModel));
+            OnPropertyChanged(nameof(SelectOutputColumnsViewModel));
         }
 
         #endregion
@@ -138,45 +116,61 @@ namespace SoftwareQualityPrediction.ViewModels
 
                 switch (columnName)
                 {
-                    case nameof(SelectInputVariablesViewModel):
-                        {
-                            if (SelectInputVariablesViewModel.SelectedItems.Count != _neuralNetworkInputsCount)
-                            {
-                                error = string.Format(Properties.Resources.ShouldBeExactlyValidationMessage,
-                                    _neuralNetworkInputsCount);
-                            }
-
-                            if (SelectInputVariablesViewModel.UnselectedItems.Any() &&
-                                !SelectInputVariablesViewModel.SelectedItems.Any())
-                            {
-                                error = string.Format(Properties.Resources.NoItemSelectedValidationMessage,
-                                    Properties.Resources.InputVariablesCaption);
-                            }
-
-                            break;
-                        }
-                    case nameof(SelectOutputVariablesViewModel):
-                    {
-                        if (SelectOutputVariablesViewModel.UnselectedItems.Any() &&
-                            !SelectOutputVariablesViewModel.SelectedItems.Any())
-                        {
-                            error = string.Format(Properties.Resources.NoItemSelectedValidationMessage,
-                                Properties.Resources.OutputVariablesCaption);
-                        }
-
-                        break;
-                    }
                     case nameof(NeuralNetworkPath):
                     {
-                        if (!File.Exists(_neuralNetworkPath))
-                        {
-                            error = Properties.Resources.PathNoExistValidationMessage;
-                        }
-
                         if (string.IsNullOrEmpty(_neuralNetworkPath))
                         {
                             error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
                                 Properties.Resources.NeuralNetworkPathCaption);
+                            break;
+                        }
+
+                        if (!File.Exists(_neuralNetworkPath))
+                        {
+                            error = Properties.Resources.PathNoExistValidationMessage;
+                            break;
+                        }
+
+                        var nnColumns = AnnTestingService.GetNeuralNetworkInputVariables(NeuralNetworkPath);
+
+                        if (!nnColumns.All(x => UploadFileViewModel.Columns.Contains(x)))
+                        {
+                            error = Properties.Resources.NotAllNNVariablesAreMappedValidationMessage;
+                        }
+
+                        break;
+                    }
+
+                    case nameof(UploadFileViewModel):
+                    {
+                        if (string.IsNullOrEmpty(UploadFileViewModel.SelectedSheet))
+                        {
+                            error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
+                                Properties.Resources.SheetCaption);
+                        }
+
+                        if (string.IsNullOrEmpty(UploadFileViewModel.SelectedIdColumn))
+                        {
+                            error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
+                                Properties.Resources.IdColumnCaption);
+                        }
+
+                        if (string.IsNullOrEmpty(UploadFileViewModel.FilePath))
+                        {
+                            error = string.Format(Properties.Resources.FieldIsRequiredValidationMessage,
+                                Properties.Resources.FileFieldCaption);
+                        }
+
+                        break;
+                    }
+
+                    case nameof(SelectOutputColumnsViewModel):
+                    {
+                        if (SelectOutputColumnsViewModel.UnselectedItems.Any() &&
+                            !SelectOutputColumnsViewModel.SelectedItems.Any())
+                        {
+                            error = string.Format(Properties.Resources.NoItemSelectedValidationMessage,
+                                Properties.Resources.OutputColumnsCaption);
                         }
 
                         break;
@@ -199,8 +193,7 @@ namespace SoftwareQualityPrediction.ViewModels
                     _errorList.Remove(columnName);
 
                 OnPropertyChanged(nameof(Error));
-                OnPropertyChanged(nameof(StartTestingCanExecute));
-
+                ((CommandHandler)StartTestingCommand).RaiseCanExecuteChanged();
                 return error;
             }
         }
@@ -215,26 +208,41 @@ namespace SoftwareQualityPrediction.ViewModels
 
             if (op.ShowDialog() == true)
             {
-                NeuralNetworkPath = op.FileName;
-
-                // If is valid
-                if (string.IsNullOrEmpty(this[nameof(NeuralNetworkPath)]))
-                {
-                    _neuralNetworkInputsCount = Network.Load(NeuralNetworkPath).InputsCount;
-                }
+                NeuralNetworkPath = op.FileName.Replace(@"\\", @"\");
             }
         }
 
         private void StartTesting()
         {
+            var annService = new AnnTestingService(_neuralNetworkPath,
+                UploadFileViewModel.FilePath,
+                UploadFileViewModel.SelectedSheet,
+                UploadFileViewModel.SelectedIdColumn,
+                SelectOutputColumnsViewModel.SelectedItems.ToList(),
+                TestingProgressChanged);
 
+            annService.StartTesting();
+        }
+
+        private bool StartTestingCanExecute()
+        {
+            return string.IsNullOrEmpty(Error);
+        }
+
+        private void TestingProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBarValue = e.ProgressPercentage;
+
+            // If completed
+            TestingCompletedMessageVisibility =
+                e.ProgressPercentage == 100
+                    ? Visibility.Visible
+                    : Visibility.Hidden;
         }
 
         private UploadFileViewModel _uploadFileViewModel;
-        private SelectItemsViewModel _selectInputVariablesViewModel;
-        private SelectItemsViewModel _selectOutputVariablesViewModel;
+        private SelectItemsViewModel _selectOutputColumnsViewModel;
         private string _neuralNetworkPath;
-        private int _neuralNetworkInputsCount;
         private int _progressBarValue;
         private Visibility _testingCompletedMessageVisibility;
         private IDictionary<string, string> _errorList;

@@ -268,6 +268,19 @@
     <comment>{0} - number of items that should be selected</comment>
   </data>
   <data name="TestingCompletedCaption" xml:space="preserve">
-    <value>Testing completed!</value>
+    <value>Testing completed! Results are in the uploaded file.</value>
+  </data>
+  <data name="NotAllNNVariablesAreMappedValidationMessage" xml:space="preserve">
+    <value>Not all neural network variables are mapped</value>
+  </data>
+  <data name="SelectVariablesCaption" xml:space="preserve">
+    <value>You must upload a file that contains the following input valiables: {0}.</value>
+    <comment>{0} - input variables</comment>
+  </data>
+  <data name="SelectOutputColumnsCaption" xml:space="preserve">
+    <value>Select Output Columns</value>
+  </data>
+  <data name="OutputColumnsCaption" xml:space="preserve">
+    <value>Output Columns</value>
   </data>
 </root>

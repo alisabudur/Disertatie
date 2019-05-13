@@ -16,6 +16,7 @@ namespace SoftwareQualityPrediction.ViewModels
         {
             _isSheetEnabled = false;
             _sheets = new List<string>();
+            _columns = new List<string>();
         }
 
         public ICommand UploadFileCommand =>

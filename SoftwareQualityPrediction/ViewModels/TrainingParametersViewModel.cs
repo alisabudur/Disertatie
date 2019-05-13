@@ -274,14 +274,6 @@ namespace SoftwareQualityPrediction.ViewModels
 
         private void StartTraining()
         {
-            var excelService = new ExcelService(_trainingDataDto.FilePath,
-                _trainingDataDto.Sheet,
-                _trainingDataDto.IdColumn,
-                _trainingDataDto.InputVariables,
-                _trainingDataDto.OutputVariables);
-
-            var data = excelService.GetAllRows();
-
             var hiddenLayers = HiddenLayers.Split(';')
                 .Select(x => Convert.ToInt32(x))
                 .ToList();
@@ -289,13 +281,15 @@ namespace SoftwareQualityPrediction.ViewModels
             var annSevice = new AnnTrainingService(Convert.ToDouble(_minError),
                 Convert.ToDouble(_learningRate),
                 Convert.ToInt32(_noEpochs),
+                Path.Combine(NeuralNetworkSavePath, $"{NeuralNetworkName}.txt"),
+                _trainingDataDto.FilePath,
+                _trainingDataDto.Sheet,
+                _trainingDataDto.IdColumn,
                 _trainingDataDto.InputVariables,
                 _trainingDataDto.OutputVariables,
                 hiddenLayers,
                 _selectedActivationFunction,
-                data,
-                TrainingProgressChanged,
-                Path.Combine(NeuralNetworkSavePath, $"{NeuralNetworkName}.txt"));
+                TrainingProgressChanged);
 
             annSevice.StartTraining();
         }

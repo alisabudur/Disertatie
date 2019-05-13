@@ -14,13 +14,15 @@ namespace SoftwareQualityPrediction.Services
         public AnnTrainingService(double minError,
             double learningRate,
             int noEpochs,
+            string savePath,
+            string filePath,
+            string sheet,
+            string idColumn,
             List<string> inputNeurons,
             List<string> outputNeurons,
             List<int> hiddenLayers,
             ActivationFunction activationFunction,
-            IEnumerable<TrainingRow> trainingRows,
-            ProgressChangedEventHandler progressChangedEventHandler,
-            string savePath)
+            ProgressChangedEventHandler progressChangedEventHandler)
         {
             _minError = minError;
             _learningRate = learningRate;
@@ -29,10 +31,15 @@ namespace SoftwareQualityPrediction.Services
             _savePath = savePath;
             _hiddenLayers = hiddenLayers;
             _activationFunction = activationFunction;
-            _trainingRows = trainingRows;
             _inputNeurons = inputNeurons;
             _outputNeurons = outputNeurons;
             _worker = new BackgroundWorker();
+
+            _excelService = new ExcelService(filePath,
+                sheet,
+                idColumn,
+                _inputNeurons,
+                _outputNeurons);
 
             var fileName = "NeuralNetworks.xls";
             var nnFilePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
@@ -79,7 +86,8 @@ namespace SoftwareQualityPrediction.Services
                 LearningRate = annLearningRate,
             };
 
-            var data = _trainingRows.ToNnModel();
+            var trainingRows = _excelService.GetAllRows();
+            var data = trainingRows.ToNnModel();
 
             var needToStop = false;
             var epoch = 0;
@@ -93,8 +101,7 @@ namespace SoftwareQualityPrediction.Services
                     needToStop = true;
                 epoch++;
             }
-
-            worker.ReportProgress(100);
+            
             e.Result = network;
         }
 
@@ -108,7 +115,7 @@ namespace SoftwareQualityPrediction.Services
 
             var nnModel = new NnModel
             {
-                Path = _savePath,
+                Path = _savePath.Replace(@"\\", @"\"),
                 InputNodes = string.Join(";", _inputNeurons),
                 OutputNodes = string.Join(";", _outputNeurons)
             };
@@ -124,6 +131,7 @@ namespace SoftwareQualityPrediction.Services
             }
 
             network.Save(_savePath);
+            worker.ReportProgress(100);
         }
 
         private class AnnInfo
@@ -142,7 +150,6 @@ namespace SoftwareQualityPrediction.Services
 
         private BackgroundWorker _worker;
         private ProgressChangedEventHandler _progressChangedEventHandler;
-        private IEnumerable<TrainingRow> _trainingRows;
         private double _minError;
         private double _learningRate;
         private int _noEpochs;
@@ -152,5 +159,6 @@ namespace SoftwareQualityPrediction.Services
         private ActivationFunction _activationFunction;
         private string _savePath;
         private IRepository<NnModel> _nnRepository;
+        private ExcelService _excelService;
     }
 }
