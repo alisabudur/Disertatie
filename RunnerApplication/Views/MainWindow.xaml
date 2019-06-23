@@ -8,7 +8,7 @@
         xmlns:resx="clr-namespace:SoftwareQualityPrediction.Properties"
         xmlns:viewModels="clr-namespace:SoftwareQualityPrediction.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200">
+        Title="{x:Static resx:Resources.ApplicationName}" Height="800" Width="1200">
 
     <Window.DataContext>
         <viewModels:MainWindowViewModel/>

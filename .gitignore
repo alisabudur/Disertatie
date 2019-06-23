@@ -1,5 +1,7 @@
 SoftwareQualityPrediction/bin
 SoftwareQualityPrediction/obj
+RunnerApplication/bin
+RunnerApplication/obj
 DataAccess/bin
 DataAccess/obj
 /.vs

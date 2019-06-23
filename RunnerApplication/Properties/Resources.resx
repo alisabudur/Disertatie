@@ -284,4 +284,7 @@
     <value>The selected document must contain the following columns: {0}.</value>
     <comment>{0} - columns stored in Excel file. {1} - output columns. </comment>
   </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>RUNNER Application</value>
+  </data>
 </root>
