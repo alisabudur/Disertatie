@@ -97,11 +97,11 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cross-Validation K Parameter.
+        ///   Looks up a localized string similar to Cross-Valisation successfuly completed!.
         /// </summary>
-        public static string CrossValidationParameterCaption {
+        public static string CrossValidationCompletedCaption {
             get {
-                return ResourceManager.GetString("CrossValidationParameterCaption", resourceCulture);
+                return ResourceManager.GetString("CrossValidationCompletedCaption", resourceCulture);
             }
         }
         
@@ -120,6 +120,15 @@ namespace SoftwareQualityPrediction.Properties {
         public static string FileFieldCaption {
             get {
                 return ResourceManager.GetString("FileFieldCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go To Cross-Validation.
+        /// </summary>
+        public static string GoToCrossValidationCaption {
+            get {
+                return ResourceManager.GetString("GoToCrossValidationCaption", resourceCulture);
             }
         }
         
@@ -174,6 +183,24 @@ namespace SoftwareQualityPrediction.Properties {
         public static string InvalidHiddenLayersFormatValidationMessage {
             get {
                 return ResourceManager.GetString("InvalidHiddenLayersFormatValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to K.
+        /// </summary>
+        public static string KParameterCaption {
+            get {
+                return ResourceManager.GetString("KParameterCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to K must be a positive number greater than 0..
+        /// </summary>
+        public static string KValidationMessage {
+            get {
+                return ResourceManager.GetString("KValidationMessage", resourceCulture);
             }
         }
         
@@ -462,6 +489,15 @@ namespace SoftwareQualityPrediction.Properties {
         public static string SigmoidCaption {
             get {
                 return ResourceManager.GetString("SigmoidCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Cross-Validation.
+        /// </summary>
+        public static string StartCrossValidationCaption {
+            get {
+                return ResourceManager.GetString("StartCrossValidationCaption", resourceCulture);
             }
         }
         

@@ -132,14 +132,28 @@ namespace SoftwareQualityPrediction.ViewModels
             get { return string.IsNullOrEmpty(Error); }
         }
 
-        public bool NavigateToNextPageCanExecute
+        public void Populate(TrainingDataModel trainingDataDto)
         {
-            get { return TrainingCompletedMessageVisibility == Visibility.Visible; }
+            _trainingDataModel = trainingDataDto;
         }
 
-        public void Populate(TrainingDataDto trainingDataDto)
+        public TrainingModel Prepare()
         {
-            _trainingDataDto = trainingDataDto;
+            var hiddenLayers = HiddenLayers.Split(';')
+                .Select(x => Convert.ToInt32(x))
+                .ToList();
+
+            return new TrainingModel
+            {
+                TrainingData = _trainingDataModel,
+                LearningRate = Convert.ToDouble(LearningRate),
+                MinError = Convert.ToDouble(MinError),
+                NoOfEpochs = Convert.ToInt32(_noEpochs),
+                HiddenLayers = hiddenLayers,
+                ActivationFunction = _selectedActivationFunction,
+                NeuralNetworkName = _neuralNetworkName,
+                NeuralNetworkSavePath = _neuralNetworkSavePath,
+            };
         }
 
         #region DataErrorInfo Implementation
@@ -274,24 +288,12 @@ namespace SoftwareQualityPrediction.ViewModels
 
         private void StartTraining()
         {
-            var hiddenLayers = HiddenLayers.Split(';')
-                .Select(x => Convert.ToInt32(x))
-                .ToList();
+            var trainingModel = Prepare();
 
-            var annSevice = new AnnTrainingService(Convert.ToDouble(_minError),
-                Convert.ToDouble(_learningRate),
-                Convert.ToInt32(_noEpochs),
-                Path.Combine(NeuralNetworkSavePath, $"{NeuralNetworkName}.txt"),
-                _trainingDataDto.FilePath,
-                _trainingDataDto.Sheet,
-                _trainingDataDto.IdColumn,
-                _trainingDataDto.InputVariables,
-                _trainingDataDto.OutputVariables,
-                hiddenLayers,
-                _selectedActivationFunction,
+            var annSevice = new AnnTrainingService(trainingModel,
                 TrainingProgressChanged);
 
-            annSevice.StartTraining();
+            annSevice.Start();
         }
 
         private void SelectNeuralNetworkSavePath()
@@ -327,7 +329,7 @@ namespace SoftwareQualityPrediction.ViewModels
         private string _hiddenLayers;
         private IDictionary<string, string> _errorList;
         private ActivationFunction _selectedActivationFunction;
-        private TrainingDataDto _trainingDataDto;
+        private TrainingDataModel _trainingDataModel;
         private Visibility _trainingCompletedMessageVisibility;
         private ICommand _startTraining;
         private ICommand _selectNeuralNetworkSavePath;

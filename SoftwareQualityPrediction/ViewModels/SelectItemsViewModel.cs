@@ -68,7 +68,7 @@ namespace SoftwareQualityPrediction.ViewModels
 
         public void Send(object message)
         {
-            Mediator.Send(message, this);
+            Mediator?.Send(message, this);
         }
 
         public void Receive(object message)

@@ -129,9 +129,6 @@
   <data name="BrowseCaption" xml:space="preserve">
     <value>Browse</value>
   </data>
-  <data name="CrossValidationParameterCaption" xml:space="preserve">
-    <value>Cross-Validation K Parameter</value>
-  </data>
   <data name="FieldIsRequiredValidationMessage" xml:space="preserve">
     <value>{0} field is required</value>
     <comment>{0} - the name of the field</comment>
@@ -282,5 +279,20 @@
   </data>
   <data name="OutputColumnsCaption" xml:space="preserve">
     <value>Output Columns</value>
+  </data>
+  <data name="KParameterCaption" xml:space="preserve">
+    <value>K</value>
+  </data>
+  <data name="CrossValidationCompletedCaption" xml:space="preserve">
+    <value>Cross-Valisation successfuly completed!</value>
+  </data>
+  <data name="StartCrossValidationCaption" xml:space="preserve">
+    <value>Start Cross-Validation</value>
+  </data>
+  <data name="GoToCrossValidationCaption" xml:space="preserve">
+    <value>Go To Cross-Validation</value>
+  </data>
+  <data name="KValidationMessage" xml:space="preserve">
+    <value>K must be a positive number greater than 0.</value>
   </data>
 </root>

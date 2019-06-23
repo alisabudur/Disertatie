@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
+using SoftwareQualityPrediction.Models;
 using SoftwareQualityPrediction.Services;
 using SoftwareQualityPrediction.Utils;
 
@@ -75,6 +76,18 @@ namespace SoftwareQualityPrediction.ViewModels
                 _testingCompletedMessageVisibility = value;
                 OnPropertyChanged(nameof(TestingCompletedMessageVisibility));
             }
+        }
+
+        public TestingModel Prepare()
+        {
+            return new TestingModel
+            {
+                NeuralNetworkPath = _neuralNetworkPath,
+                DataFilePath = UploadFileViewModel.FilePath,
+                IdColumn = UploadFileViewModel.SelectedIdColumn,
+                Sheet = UploadFileViewModel.SelectedSheet,
+                OutputVariables = SelectOutputColumnsViewModel.SelectedItems.ToList()
+            };
         }
 
         #region Mediator Implementation
@@ -214,14 +227,12 @@ namespace SoftwareQualityPrediction.ViewModels
 
         private void StartTesting()
         {
-            var annService = new AnnTestingService(_neuralNetworkPath,
-                UploadFileViewModel.FilePath,
-                UploadFileViewModel.SelectedSheet,
-                UploadFileViewModel.SelectedIdColumn,
-                SelectOutputColumnsViewModel.SelectedItems.ToList(),
+            var testingModel = Prepare();
+
+            var annService = new AnnTestingService(testingModel,
                 TestingProgressChanged);
 
-            annService.StartTesting();
+            annService.Start();
         }
 
         private bool StartTestingCanExecute()

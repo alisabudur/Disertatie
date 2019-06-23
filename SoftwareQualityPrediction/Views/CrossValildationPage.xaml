@@ -1,0 +1,103 @@
+﻿<Page x:Class="SoftwareQualityPrediction.Views.CrossValildationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SoftwareQualityPrediction.Views"
+      xmlns:resx="clr-namespace:SoftwareQualityPrediction.Properties"
+      xmlns:viewModels="clr-namespace:SoftwareQualityPrediction.ViewModels"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="CrossValildationPage">
+
+    <Page.DataContext>
+        <viewModels:CrossValidationViewModel/>
+    </Page.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="7*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="{x:Static resx:Resources.KParameterCaption}" 
+                   Grid.Row="0" 
+                   Grid.Column="1"
+                   Margin="5"/>
+
+            <TextBox Text="{Binding K, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     Height="25"
+                     Margin="5"
+                     Grid.Column="1"
+                     Grid.Row="1"/>
+        </Grid>
+        
+        <Grid Row="1">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="{x:Static resx:Resources.SelectOutputColumnsCaption}"
+                      Margin="20"
+                      Grid.Column="1">
+                <local:SelectItemsView
+                    DataContext="{Binding SelectOutputColumnsViewModel, ValidatesOnDataErrors=True}"
+                    Margin="10"/>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="2"
+              Grid.Column="0"
+              Margin="20">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <ProgressBar Value="{Binding ProgressBarValue}"
+                         Minimum="0"
+                         Maximum="100"
+                         Height="25"
+                         Grid.Column="0"/>
+
+            <Label Content="{x:Static resx:Resources.CrossValidationCompletedCaption}" 
+                   Visibility="{Binding CrossValidationCompletedMessageVisibility}"
+                   HorizontalAlignment="Center"
+                   Grid.Column="1"/>
+
+            <Label Content="{Binding Error}" 
+                   Foreground="Red"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   Grid.Column="2"/>
+
+            <Button Content="{x:Static resx:Resources.StartCrossValidationCaption}"
+                    Command="{Binding StartCrossValidationCommand}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Height="25"
+                    Width="120"
+                    Grid.Column="3"/>
+        </Grid>
+
+    </Grid>
+</Page>

@@ -142,15 +142,16 @@ namespace SoftwareQualityPrediction.ViewModels
 
         #endregion
 
-        public TrainingDataDto PrepareDto()
+        public TrainingDataModel Prepare()
         {
-            return new TrainingDataDto
+            return new TrainingDataModel
             {
                 FilePath = UploadFileViewModel.FilePath,
                 Sheet = UploadFileViewModel.SelectedSheet,
                 IdColumn = UploadFileViewModel.SelectedIdColumn,
                 InputVariables = SelectInputVariablesViewModel.SelectedItems.ToList(),
-                OutputVariables = SelectOutputVariablesViewModel.SelectedItems.ToList()
+                OutputVariables = SelectOutputVariablesViewModel.SelectedItems.ToList(),
+                AllColumns = UploadFileViewModel.Columns
             };
         }
 

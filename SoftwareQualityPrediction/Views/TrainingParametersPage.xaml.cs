@@ -10,11 +10,17 @@ namespace SoftwareQualityPrediction.Views
     /// </summary>
     public partial class TrainingParametersPage : Page
     {
-        public TrainingParametersPage(TrainingDataDto trainingDataDto)
+        public TrainingParametersPage(TrainingDataModel trainingDataModel)
         {
             InitializeComponent();
             var viewModel = (TrainingParametersViewModel) DataContext;
-            viewModel.Populate(trainingDataDto);
+            viewModel.Populate(trainingDataModel);
+        }
+
+        private void NavigateToCrossValidationPage(object sender, RoutedEventArgs e)
+        {
+            var viewModel = (TrainingParametersViewModel)DataContext;
+            NavigationService?.Navigate(new CrossValildationPage(viewModel.Prepare()));
         }
 
         private void NavigateToNextPage(object sender, RoutedEventArgs e)

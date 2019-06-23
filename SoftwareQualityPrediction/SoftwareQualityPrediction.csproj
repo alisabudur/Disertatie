@@ -77,24 +77,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Dtos\TrainingDataDto.cs" />
+    <Compile Include="Models\CrossValidationModel.cs" />
+    <Compile Include="Models\TestingModel.cs" />
+    <Compile Include="Models\TrainingDataModel.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Models\ActivationFunction.cs" />
     <Compile Include="Models\NnModel.cs" />
+    <Compile Include="Models\TrainingModel.cs" />
     <Compile Include="Models\TrainingRows.cs" />
     <Compile Include="Models\TrainingRow.cs" />
     <Compile Include="Services\AnnTestingService.cs" />
     <Compile Include="Services\AnnTrainingService.cs" />
+    <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\CrossValidationService.cs" />
     <Compile Include="Services\ExcelService.cs" />
     <Compile Include="Utils\CommandHandler.cs" />
     <Compile Include="Utils\EnumToBoolConverter.cs" />
     <Compile Include="Utils\IColleague.cs" />
     <Compile Include="Utils\IMediator.cs" />
+    <Compile Include="ViewModels\CrossValidationViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\SelectItemsViewModel.cs" />
     <Compile Include="ViewModels\TestingViewModel.cs" />
     <Compile Include="ViewModels\TrainingDataViewModel.cs" />
     <Compile Include="ViewModels\TrainingParametersViewModel.cs" />
+    <Compile Include="Views\CrossValildationPage.xaml.cs">
+      <DependentUpon>CrossValildationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SelectItemsView.xaml.cs">
       <DependentUpon>SelectItemsView.xaml</DependentUpon>
     </Compile>
@@ -110,6 +119,10 @@
     <Compile Include="Views\UploadFileView.xaml.cs">
       <DependentUpon>UploadFileView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\CrossValildationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -163,6 +176,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -17,7 +17,7 @@ namespace SoftwareQualityPrediction.Views
         private void NavigateToNextPage(object sender, RoutedEventArgs e)
         {
             var viewModel = (TrainingDataViewModel) DataContext;
-            var trainingDataDto = viewModel.PrepareDto();
+            var trainingDataDto = viewModel.Prepare();
             NavigationService?.Navigate(new TrainingParametersPage(trainingDataDto));
         }
     }

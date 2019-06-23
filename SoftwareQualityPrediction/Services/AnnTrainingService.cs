@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
 using DataAccess.Repositories;
@@ -9,37 +11,13 @@ using SoftwareQualityPrediction.Models;
 
 namespace SoftwareQualityPrediction.Services
 {
-    public class AnnTrainingService
+    public class AnnTrainingService : IService
     {
-        public AnnTrainingService(double minError,
-            double learningRate,
-            int noEpochs,
-            string savePath,
-            string filePath,
-            string sheet,
-            string idColumn,
-            List<string> inputNeurons,
-            List<string> outputNeurons,
-            List<int> hiddenLayers,
-            ActivationFunction activationFunction,
+        public AnnTrainingService(TrainingModel trainingModel,
             ProgressChangedEventHandler progressChangedEventHandler)
         {
-            _minError = minError;
-            _learningRate = learningRate;
-            _noEpochs = noEpochs;
-            _progressChangedEventHandler = progressChangedEventHandler;
-            _savePath = savePath;
-            _hiddenLayers = hiddenLayers;
-            _activationFunction = activationFunction;
-            _inputNeurons = inputNeurons;
-            _outputNeurons = outputNeurons;
-            _worker = new BackgroundWorker();
-
-            _excelService = new ExcelService(filePath,
-                sheet,
-                idColumn,
-                _inputNeurons,
-                _outputNeurons);
+            _trainingModel = trainingModel;
+            
 
             var fileName = "NeuralNetworks.xls";
             var nnFilePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
@@ -51,42 +29,62 @@ namespace SoftwareQualityPrediction.Services
             _nnRepository = new Repository<NnModel>(connectionString);
         }
 
-        public void StartTraining()
+        public IService Succesor { get; set; }
+
+        public Action OnCompleteCallback { get; set; }
+
+        public void Start(int? noOfSubsets = null, int? testingSubsetIndex = null)
         {
+            _excelService = new ExcelService(_trainingModel.TrainingData.FilePath,
+                _trainingModel.TrainingData.Sheet,
+                _trainingModel.TrainingData.IdColumn,
+                _trainingModel.TrainingData.InputVariables,
+                _trainingModel.TrainingData.OutputVariables);
+
+            _worker = new BackgroundWorker();
             _worker.DoWork += worker_DoWork;
-            _worker.ProgressChanged += _progressChangedEventHandler;
+
+            if(_progressChangedEventHandler != null)
+                _worker.ProgressChanged += _progressChangedEventHandler;
+
             _worker.WorkerReportsProgress = true;
             _worker.WorkerSupportsCancellation = true;
             _worker.RunWorkerCompleted += worker_RunWorkerCompleted;
-            var annInfo = new AnnInfo
+            var workerInfo = new WorkerInfo
             {
-                LearningRate = _learningRate,
-                Epochs = _noEpochs,
-                Error = _minError
+                LearningRate = _trainingModel.LearningRate,
+                Epochs = _trainingModel.NoOfEpochs,
+                Error = _trainingModel.MinError,
+                TrainingRows = GetTrainingRows(noOfSubsets, testingSubsetIndex),
+                NoOfSubsets = noOfSubsets,
+                TestingSubsetIndex = testingSubsetIndex
             };
-            _worker.RunWorkerAsync(annInfo);
+            _worker.RunWorkerAsync(workerInfo);
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (BackgroundWorker)sender;
-            var parameter = (AnnInfo)e.Argument;
+            var parameter = (WorkerInfo)e.Argument;
             var annLearningRate = parameter.LearningRate;
             var annEpochs = parameter.Epochs;
             var annError = parameter.Error;
+            var trainingRows = parameter.TrainingRows;
 
-            _hiddenLayers.Add(_outputNeurons.Count);
+            var hiddenLayersAndOutputLayer = _trainingModel.HiddenLayers;
+            hiddenLayersAndOutputLayer.Add(_trainingModel.TrainingData.OutputVariables.Count);
 
-            var network = new ActivationNetwork(_activationFunctions[_activationFunction],
-                _inputNeurons.Count,
-                _hiddenLayers.ToArray());
+            var inputLayer = _trainingModel.TrainingData.InputVariables.Count;
+
+            var network = new ActivationNetwork(_activationFunctions[_trainingModel.ActivationFunction],
+                inputLayer,
+                hiddenLayersAndOutputLayer.ToArray());
 
             var learning = new BackPropagationLearning(network)
             {
-                LearningRate = annLearningRate,
+                LearningRate = annLearningRate
             };
 
-            var trainingRows = _excelService.GetAllRows();
             var data = trainingRows.ToNnModel();
 
             var needToStop = false;
@@ -94,15 +92,21 @@ namespace SoftwareQualityPrediction.Services
 
             while (!needToStop && epoch < annEpochs)
             {
-                var error = learning.RunEpoch(data.Input, data.Output) / data.Input.Length;
+                var error = learning.RunEpoch(data.Input, data.Output) 
+                            / data.Input.Length;
 
                 worker.ReportProgress((epoch * 100) / annEpochs);
                 if (error < annError)
                     needToStop = true;
                 epoch++;
             }
-            
-            e.Result = network;
+
+            e.Result = new WorkerResultInfo
+            {
+                Network = network,
+                NoOfSubsets = parameter.NoOfSubsets,
+                TestingSubsetIndex = parameter.TestingSubsetIndex
+            };
         }
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -111,18 +115,21 @@ namespace SoftwareQualityPrediction.Services
             worker.DoWork -= worker_DoWork;
             worker.ProgressChanged -= _progressChangedEventHandler;
             worker.RunWorkerCompleted -= worker_RunWorkerCompleted;
-            var network = (Network)e.Result;
+            var parameter = (WorkerResultInfo)e.Result;
+            var network = parameter.Network;
+
+            var savePath = _trainingModel.NeuralNetworkPath;
 
             var nnModel = new NnModel
             {
-                Path = _savePath.Replace(@"\\", @"\"),
-                InputNodes = string.Join(";", _inputNeurons),
-                OutputNodes = string.Join(";", _outputNeurons)
+                Path = savePath,
+                InputNodes = string.Join(";", _trainingModel.TrainingData.InputVariables),
+                OutputNodes = string.Join(";", _trainingModel.TrainingData.OutputVariables)
             };
 
-            if (File.Exists(_savePath))
+            if (File.Exists(savePath))
             {
-                File.Delete(_savePath);
+                File.Delete(savePath);
                 _nnRepository.Update(nnModel);
             }
             else
@@ -130,34 +137,73 @@ namespace SoftwareQualityPrediction.Services
                 _nnRepository.Add(nnModel);
             }
 
-            network.Save(_savePath);
-            worker.ReportProgress(100);
+            network.Save(savePath);
+
+            if (parameter.TestingSubsetIndex.HasValue && parameter.NoOfSubsets.HasValue)
+            {
+                OnCompleteCallback?.Invoke();
+                Succesor?.Start(parameter.NoOfSubsets, parameter.TestingSubsetIndex);
+            }
         }
 
-        private class AnnInfo
+        private IEnumerable<TrainingRow> GetTrainingRows(int? noOfSubsets = null, int? testingSubsetIndex = null)
+        {
+            List<TrainingRow> testingRows = null;
+
+            if (!noOfSubsets.HasValue || !testingSubsetIndex.HasValue)
+            {
+                testingRows = _excelService.GetAllRows().ToList();
+            }
+            else
+            {
+                testingRows = new List<TrainingRow>();
+                var totalRowsCount = _excelService.GetAllRows().Count();
+                var subsetCount = (int)Math.Ceiling((double)totalRowsCount / noOfSubsets.Value);
+
+                for (var i = 0; i < noOfSubsets; i++)
+                {
+                    if(i == testingSubsetIndex)
+                        continue;
+
+                    var rows = _excelService.GetAllRows()
+                        .Skip(subsetCount * i)
+                        .Take(subsetCount)
+                        .ToList();
+
+                    testingRows.AddRange(rows);
+                }
+            }
+
+            return testingRows;
+        }
+
+        private class WorkerInfo
         {
             public double LearningRate { get; set; }
             public int Epochs { get; set; }
             public double Error { get; set; }
+            public IEnumerable<TrainingRow> TrainingRows { get; set; }
+            public int? NoOfSubsets { get; set; }
+            public int? TestingSubsetIndex { get; set; }
+        }
+
+        private class WorkerResultInfo
+        {
+            public int? NoOfSubsets { get; set; }
+            public int? TestingSubsetIndex { get; set; }
+            public Network Network { get; set; }
         }
 
         private IDictionary<ActivationFunction, IActivationFunction> _activationFunctions
             = new Dictionary<ActivationFunction, IActivationFunction>
             {
-                {ActivationFunction.Sigmoid, new SigmoidFunction()},
-                {ActivationFunction.BipolarSigmoid, new BipolarSigmoidFunction()}
+                {ActivationFunction.Sigmoid, new SigmoidFunction(1)},
+                {ActivationFunction.BipolarSigmoid, new BipolarSigmoidFunction(1)}
             };
 
         private BackgroundWorker _worker;
         private ProgressChangedEventHandler _progressChangedEventHandler;
-        private double _minError;
-        private double _learningRate;
-        private int _noEpochs;
-        private List<string> _inputNeurons;
-        private List<string> _outputNeurons;
-        private List<int> _hiddenLayers;
-        private ActivationFunction _activationFunction;
-        private string _savePath;
+        private TrainingModel _trainingModel;
         private IRepository<NnModel> _nnRepository;
         private ExcelService _excelService;
     }
