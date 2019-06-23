@@ -97,6 +97,15 @@ namespace SoftwareQualityPrediction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The selected document must contain the following columns: {0}..
+        /// </summary>
+        public static string ColumnsToBeSelectedCaption {
+            get {
+                return ResourceManager.GetString("ColumnsToBeSelectedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cross-Validation K Parameter.
         /// </summary>
         public static string CrossValidationParameterCaption {
@@ -273,15 +282,6 @@ namespace SoftwareQualityPrediction.Properties {
         public static string NoItemSelectedValidationMessage {
             get {
                 return ResourceManager.GetString("NoItemSelectedValidationMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Not all neural network variables are mapped.
-        /// </summary>
-        public static string NotAllNNVariablesAreMappedValidationMessage {
-            get {
-                return ResourceManager.GetString("NotAllNNVariablesAreMappedValidationMessage", resourceCulture);
             }
         }
         

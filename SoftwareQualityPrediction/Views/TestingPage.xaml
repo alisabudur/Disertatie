@@ -79,6 +79,14 @@
                                 Grid.Column="1"
                                 Height="25"
                                 Margin="5"/>
+
+                    <TextBlock Text="{Binding ColumnsThatMustBeSelected}"
+                               TextWrapping="WrapWithOverflow"
+                               TextAlignment="Justify"
+                               FontStyle="Italic"
+                               Foreground="Gray"
+                               Grid.Row="2"
+                               Grid.Column="0"/>
                 </Grid>
             </GroupBox>
         </Grid>

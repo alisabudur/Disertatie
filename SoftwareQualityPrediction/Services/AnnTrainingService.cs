@@ -90,15 +90,19 @@ namespace SoftwareQualityPrediction.Services
             var data = trainingRows.ToNnModel();
 
             var needToStop = false;
-            var epoch = 0;
+            var epoch = 1;
 
-            while (!needToStop && epoch < annEpochs)
+            while (!needToStop && epoch <= annEpochs)
             {
                 var error = learning.RunEpoch(data.Input, data.Output) / data.Input.Length;
 
                 worker.ReportProgress((epoch * 100) / annEpochs);
                 if (error < annError)
+                {
                     needToStop = true;
+                    worker.ReportProgress(100);
+                }
+
                 epoch++;
             }
             
@@ -131,7 +135,6 @@ namespace SoftwareQualityPrediction.Services
             }
 
             network.Save(_savePath);
-            worker.ReportProgress(100);
         }
 
         private class AnnInfo

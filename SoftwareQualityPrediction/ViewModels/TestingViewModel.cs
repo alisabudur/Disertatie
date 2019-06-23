@@ -67,6 +67,16 @@ namespace SoftwareQualityPrediction.ViewModels
             }
         }
 
+        public string ColumnsThatMustBeSelected
+        {
+            get { return _columnsToBeSelected; }
+            set
+            {
+                _columnsToBeSelected = value;
+                OnPropertyChanged(nameof(ColumnsThatMustBeSelected));
+            }
+        }
+
         public Visibility TestingCompletedMessageVisibility
         {
             get { return _testingCompletedMessageVisibility; }
@@ -129,13 +139,6 @@ namespace SoftwareQualityPrediction.ViewModels
                         {
                             error = Properties.Resources.PathNoExistValidationMessage;
                             break;
-                        }
-
-                        var nnColumns = AnnTestingService.GetNeuralNetworkInputVariables(NeuralNetworkPath);
-
-                        if (!nnColumns.All(x => UploadFileViewModel.Columns.Contains(x)))
-                        {
-                            error = Properties.Resources.NotAllNNVariablesAreMappedValidationMessage;
                         }
 
                         break;
@@ -209,6 +212,11 @@ namespace SoftwareQualityPrediction.ViewModels
             if (op.ShowDialog() == true)
             {
                 NeuralNetworkPath = op.FileName.Replace(@"\\", @"\");
+                var annModel = AnnTestingService.GetNeuralNetworkModel(NeuralNetworkPath);
+                var inputColumns = annModel.InputNodes.Split(';').ToList();
+
+                ColumnsThatMustBeSelected = string.Format(Properties.Resources.ColumnsToBeSelectedCaption,
+                    string.Join(", ", inputColumns));
             }
         }
 
@@ -243,6 +251,7 @@ namespace SoftwareQualityPrediction.ViewModels
         private UploadFileViewModel _uploadFileViewModel;
         private SelectItemsViewModel _selectOutputColumnsViewModel;
         private string _neuralNetworkPath;
+        private string _columnsToBeSelected;
         private int _progressBarValue;
         private Visibility _testingCompletedMessageVisibility;
         private IDictionary<string, string> _errorList;

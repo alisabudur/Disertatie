@@ -19,7 +19,7 @@ namespace SoftwareQualityPrediction.Services
         {
             _neuralNetworkPath = neuralNetworkPath;
 
-            var inputVariables = GetNeuralNetworkInputVariables(neuralNetworkPath);
+            var inputVariables = GetNeuralNetworkModel(neuralNetworkPath).InputNodes.Split(';').ToList();
 
             _excelService = new ExcelService(filePath,
                 sheet,
@@ -31,7 +31,7 @@ namespace SoftwareQualityPrediction.Services
             _worker = new BackgroundWorker();
         }
 
-        public static List<string> GetNeuralNetworkInputVariables(string neuralNetworkPath)
+        public static NnModel GetNeuralNetworkModel(string neuralNetworkPath)
         {
             var fileName = "NeuralNetworks.xls";
             var nnFilePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
@@ -39,7 +39,7 @@ namespace SoftwareQualityPrediction.Services
             var nnRepository = new Repository<NnModel>(connectionString);
             var model = nnRepository.GetSingle(neuralNetworkPath);
 
-            return model.InputNodes.Split(';').ToList();
+            return model;
         }
 
         public void StartTesting()
